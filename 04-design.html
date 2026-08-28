@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNIT 04 復刻設計｜從停權到 Discord</title>
+<link rel="stylesheet" href="assets/deck.css">
+</head>
+<body data-unit="04" data-unit-name="復刻設計" data-prev="03-migrate.html" data-next="05-theme.html">
+<div id="viewport"><div id="stage">
+
+
+<!-- ── 章節首頁（墨黑） ───────────────────── -->
+<section class="slide sec k" data-sec="復刻設計">
+  <div class="ghostno">03</div>
+  <div class="secno r">CHAPTER 03</div>
+  <h1 class="r mega" style="--d:.12s">先把樣子<br>復刻回來</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">搬家的第一步，我從設計面開始。</p>
+</section>
+
+
+<!-- ── 問題：前台沒了 ─────────────────────── -->
+<section class="slide" data-sec="沒有原稿可以看">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker r">第一個難題</div>
+      <h1 class="r h1s" style="--d:.1s">網站已經<br>打不開了，<br>怎麼照著做？</h1>
+    </div>
+    <div class="r" style="--d:.26s; display:grid; place-items:center">
+      <svg viewBox="0 0 260 200" style="width:280px" aria-label="打不開的網站">
+        <rect x="20" y="24" width="220" height="152" rx="9" fill="none" stroke="#E7E0D6" stroke-width="3"/>
+        <path d="M20 58h220" stroke="#E7E0D6" stroke-width="3"/>
+        <circle cx="40" cy="41" r="5" fill="#E7E0D6"/><circle cx="58" cy="41" r="5" fill="#E7E0D6"/>
+        <path d="M96 92l68 68M164 92l-68 68" stroke="#F57C00" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Web Archive ────────────────────────── -->
+<section class="slide" data-sec="Web Archive">
+  <div class="cols c-media" style="align-items:center">
+    <div class="shot r" style="--d:.06s">
+      <img src="images/wayback-snapshot.jpg" alt="Web Archive 上的網站快照">
+      <div class="ph"><div class="box"></div>
+        <div class="fn">images/wayback-snapshot.jpg</div>
+        <div class="hint">WEB ARCHIVE 快照畫面</div></div>
+    </div>
+    <div class="stack g20">
+      <div class="kicker r" style="--d:.12s">解法</div>
+      <h1 class="r h1s" style="--d:.18s">去 Web Archive<br>把它撈回來。</h1>
+      <p class="lead r" style="--d:.26s">找到還活著的快照，<br><b>把每一種版型都截圖下來。</b></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 版型盤點 ───────────────────────────── -->
+<section class="slide" data-sec="版型盤點">
+  <div class="kicker r">好消息是，頁面沒幾種</div>
+  <div class="wires r" style="--d:.14s; margin-top:6px">
+    <div>
+      <div class="wire"><i class="hd"></i><i class="blk"></i><i class="t"></i><i class="s"></i></div>
+      <div class="wirecap">首頁</div>
+    </div>
+    <div>
+      <div class="wire"><i class="hd"></i><i class="t"></i><i class="s"></i><i class="t"></i><i class="s"></i><i class="blk"></i></div>
+      <div class="wirecap">文章列表</div>
+    </div>
+    <div>
+      <div class="wire"><i class="hd"></i><i class="s"></i><i class="t"></i><i class="t"></i><i class="blk"></i></div>
+      <div class="wirecap">分類列表</div>
+    </div>
+    <div>
+      <div class="wire"><i class="hd"></i><i class="t"></i><i class="blk"></i><i class="s"></i></div>
+      <div class="wirecap">文章內頁</div>
+    </div>
+  </div>
+  <p class="lead wide r" style="--d:.3s; margin-top:30px">四種版型截好，<b>整個站的設計就盤點完了。</b></p>
+</section>
+
+
+<!-- ── 工具 ───────────────────────────────── -->
+<section class="slide" data-sec="設計工具">
+  <div class="kicker b r">我用的 AI 設計工具</div>
+  <h1 class="r mega" style="--d:.1s">Claude Design</h1>
+  <p class="lead wide r" style="--d:.24s; margin-top:32px">截圖丟進去，<b>它認得出這個網站長什麼樣子。</b></p>
+</section>
+
+
+<!-- ── 好處 01 ────────────────────────────── -->
+<section class="slide" data-sec="好處 01">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">01</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">從截圖擷取<br>設計元素</h1>
+      <p class="lead r" style="--d:.2s">顏色、字型、按鈕樣式一次抓出來，<br><b>整理成一套設計系統再開始設計。</b></p>
+    </div>
+    <div class="shot r" style="--d:.28s">
+      <img src="images/claude-design-system.jpg" alt="Claude Design 擷取出的設計系統">
+      <div class="ph"><div class="box"></div>
+        <div class="fn">images/claude-design-system.jpg</div>
+        <div class="hint">擷取出的色票 / 字型 / 元件</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 好處 02 ────────────────────────────── -->
+<section class="slide" data-sec="好處 02">
+  <div class="cols c-side" style="align-items:center">
+    <div class="bignum r ghost">02</div>
+    <div class="stack g24">
+      <h1 class="r h1s" style="--d:.1s">生出來的元件，<br>可以自己手改。</h1>
+      <p class="lead wide r" style="--d:.2s">只是要改幾個字，還要回頭叫 AI 改，<br><b>反而更慢。</b></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 好處 03 ────────────────────────────── -->
+<section class="slide" data-sec="好處 03">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">03</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">同一個區塊，<br>一次給你五版</h1>
+      <p class="lead r" style="--d:.2s">舊架構撐不住新需求的地方，<br><b>讓它多做幾版，我挑。</b></p>
+    </div>
+    <div class="shot r" style="--d:.28s">
+      <img src="images/claude-design-variants.jpg" alt="首頁的五個版本">
+      <div class="ph"><div class="box"></div>
+        <div class="fn">images/claude-design-variants.jpg</div>
+        <div class="hint">首頁 / 主選單的五個版本</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 另外三件事 ─────────────────────────── -->
+<section class="slide" data-sec="它還會做的事">
+  <div class="kicker b r">除此之外</div>
+  <div class="tri r" style="--d:.14s">
+    <div>
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="13" height="10" rx="1.5"/><rect x="17" y="8" width="5" height="12" rx="1.5"/><path d="M6 18h5"/></svg></div>
+      <h3>響應式自動化</h3>
+      <p>手機、平板、桌機的間距與字級，照設計規範自動推算，不用手調斷點。</p>
+    </div>
+    <div>
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <h3>無障礙即時檢測</h3>
+      <p>對比度、字級是否符合 WCAG，設計當下就檢查，並直接給修正建議。</p>
+    </div>
+    <div>
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></div>
+      <h3>設計即程式碼</h3>
+      <p>元件可以直接輸出成 CSS / Tailwind / React，設計稿與成品不會走鐘。</p>
+    </div>
+  </div>
+</section>
+
+
+</div></div>
+<script src="assets/deck.js"></script>
+</body>
+</html>

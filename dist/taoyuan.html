@@ -1,0 +1,2077 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>從停權到 Discord｜0829 桃園小聚</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap">
+<style>
+/* ═══════════════════════════════════════════════
+   從停權到 Discord — 0829 桃園小聚簡報樣式
+   舞台固定 1280 × 720，由 deck.js 等比縮放
+   淺色極簡：暖白底 + Blogger 橘 + WordPress 藍
+   章節首頁（.slide.sec）整頁滿版色塊，與內容頁完全分開
+   ═══════════════════════════════════════════════ */
+
+:root{
+  /* 紙面 */
+  --paper:   #FBF9F6;
+  --paper-2: #F3EFE9;
+  --paper-3: #E7E0D6;
+
+  /* 文字 */
+  --ink:     #171310;   /* 主文 */
+  --mute:    #56504A;   /* 次文 */
+  --faint:   #8B837B;   /* 標註 */
+
+  /* 兩個品牌色 */
+  --blogger:      #F57C00;
+  --blogger-deep: #B35C00;   /* 淺底上的文字用這支才夠對比 */
+  --blogger-sk:   rgba(245,124,0,.12);
+  --wp:           #21759B;
+  --wp-deep:      #16536E;
+  --wp-sk:        rgba(33,117,155,.12);
+
+  --line:   rgba(23,19,16,.15);
+  --line-2: rgba(23,19,16,.07);
+
+  --serif: "Noto Serif TC", "Songti TC", serif;
+  --sans:  "Noto Sans TC", -apple-system, "PingFang TC", sans-serif;
+  --mono:  "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+
+  /* 字級（1280×720 舞台內的絕對值，一律偏大） */
+  --fs-mega: 88px;
+  --fs-h1:   64px;
+  --fs-h2:   42px;
+  --fs-lead: 29px;
+  --fs-body: 24px;
+  --fs-note: 17px;
+  --fs-eye:  15px;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+#viewport{
+  position:fixed; inset:0; overflow:hidden;
+  background:
+    radial-gradient(110% 80% at 84% 4%, rgba(245,124,0,.07), transparent 60%),
+    radial-gradient(90% 70% at 4% 98%, rgba(33,117,155,.07), transparent 62%),
+    var(--paper);
+}
+#stage{
+  position:absolute; top:0; left:0;
+  width:1280px; height:720px;
+  transform-origin:top left;
+}
+#stage.leaving{opacity:0; transition:opacity .26s ease;}
+
+/* ── 儀表框 ───────────────────────────────── */
+.hull{position:absolute; inset:26px; border:1px solid var(--line-2); pointer-events:none; z-index:40; transition:opacity .4s ease;}
+.hull::before,.hull::after{content:""; position:absolute; width:10px; height:10px; border:1px solid var(--line);}
+.hull::before{left:-1px; top:-1px; border-right:0; border-bottom:0;}
+.hull::after{right:-1px; bottom:-1px; border-left:0; border-top:0;}
+
+.eyebrow-slot{
+  position:absolute; left:54px; top:17px; z-index:60;
+  background:var(--paper); padding:0 12px;
+  font-family:var(--mono); font-size:13px; font-weight:500;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--faint);
+  display:flex; align-items:center; gap:10px; white-space:nowrap;
+  transition:color .35s ease, background .35s ease;
+}
+.eyebrow-slot .u{color:var(--blogger-deep);}
+
+#pageno{
+  position:absolute; right:54px; bottom:17px; z-index:60;
+  background:var(--paper); padding:0 12px;
+  font-family:var(--mono); font-size:13px; letter-spacing:.14em; color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  transition:color .35s ease, background .35s ease;
+}
+#railwrap{position:absolute; left:26px; right:26px; bottom:26px; height:2px; z-index:59;}
+#rail{height:2px; width:0; background:linear-gradient(90deg,var(--blogger),var(--wp));
+  transition:width .5s cubic-bezier(.2,.7,.3,1);}
+
+#nav{position:absolute; right:54px; bottom:44px; z-index:60; display:flex; gap:6px;}
+#nav button{
+  width:32px;height:32px; background:transparent; border:1px solid var(--line);
+  color:var(--faint); border-radius:2px; cursor:pointer; display:grid; place-items:center; transition:.2s;
+}
+#nav button:hover{color:var(--blogger-deep); border-color:var(--blogger);}
+#nav button:focus-visible{outline:2px solid var(--blogger); outline-offset:2px;}
+#nav svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+#help{
+  position:absolute; left:54px; bottom:17px; z-index:60; background:var(--paper); padding:0 12px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; color:var(--faint);
+  display:flex; align-items:center; gap:20px;
+  transition:color .35s ease, background .35s ease;
+}
+#help button{
+  font:inherit; letter-spacing:inherit; color:inherit;
+  background:transparent; border:0; padding:3px 2px; margin:0;
+  cursor:pointer; white-space:nowrap; transition:color .18s ease;
+}
+#help button:hover{color:var(--blogger-deep);}
+#help kbd{color:var(--mute); font-family:var(--mono);}
+#help button:focus-visible{outline:1px solid var(--blogger); outline-offset:3px;}
+
+/* 章節首頁時，整套儀表框退到滿版色塊上，改成淺色 */
+#stage:has(.slide.sec.in) .hull{opacity:0;}
+#stage:has(.slide.sec.in) .eyebrow-slot,
+#stage:has(.slide.sec.in) #pageno,
+#stage:has(.slide.sec.in) #help{background:transparent; color:rgba(255,255,255,.62);}
+#stage:has(.slide.sec.in) .eyebrow-slot .u,
+#stage:has(.slide.sec.in) #help kbd{color:rgba(255,255,255,.86);}
+#stage:has(.slide.sec.in) #nav button{border-color:rgba(255,255,255,.3); color:rgba(255,255,255,.7);}
+#stage:has(.slide.sec.in) #rail{background:rgba(255,255,255,.85);}
+/* 章節首頁沒有 .hull 可以讓 #help／#pageno 用紙色底挖缺口，
+   進度條會直接橫穿文字，所以跟著外框一起淡出。 */
+#railwrap{transition:opacity .4s ease;}
+#stage:has(.slide.sec.in) #railwrap{opacity:0;}
+
+/* ── 投影片 ────────────────────────────────── */
+.slide{
+  position:absolute; inset:0; padding:96px 82px 84px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.slide[hidden]{display:none;}
+.slide.top{justify-content:flex-start;}
+
+/* 進場：淡入 + 微上移，用 --d 排序 */
+.r{
+  opacity:0; transform:translateY(20px);
+  transition:opacity .5s ease, transform .55s cubic-bezier(.2,.72,.3,1);
+  transition-delay:var(--d,0s);
+}
+.slide.in .r{opacity:1; transform:none;}
+.slide.out .r{opacity:0; transform:translateY(-10px); transition-duration:.2s; transition-delay:0s;}
+
+.step{opacity:0; transform:translateY(14px);
+  transition:opacity .45s ease, transform .45s cubic-bezier(.2,.72,.3,1);}
+.step.on{opacity:1; transform:none;}
+
+@media (prefers-reduced-motion:reduce){
+  .r,.step,#stage.leaving,.slide.sec::before{transition-duration:.01ms !important; transform:none !important;}
+}
+
+/* ── 章節首頁：滿版色塊，由下往上刷過來 ──────── */
+.slide.sec{--secbg:var(--blogger); color:#fff; justify-content:flex-end; padding:96px 82px 110px;}
+.slide.sec::before{
+  content:""; position:absolute; inset:0; background:var(--secbg);
+  transform:scaleY(0); transform-origin:bottom;
+  transition:transform .55s cubic-bezier(.7,0,.2,1);
+  z-index:0;
+}
+.slide.sec.in::before{transform:none;}
+.slide.sec > *{position:relative; z-index:1;}
+.slide.sec h1{color:#fff;}
+.slide.sec .lead{color:rgba(255,255,255,.82); max-width:36ch;}
+.slide.sec .kicker{color:rgba(255,255,255,.72);}
+.slide.sec .kicker::after{background:linear-gradient(90deg,rgba(255,255,255,.45),transparent);}
+.slide.sec .secno{
+  font-family:var(--mono); font-size:22px; font-weight:500; letter-spacing:.34em;
+  color:rgba(255,255,255,.62); margin-bottom:26px;
+}
+.sec.o{--secbg:var(--blogger);}
+.sec.b{--secbg:var(--wp);}
+.sec.k{--secbg:#171310;}
+.sec.od{--secbg:var(--blogger-deep);}
+.sec.bd{--secbg:var(--wp-deep);}
+
+/* 章節首頁角落的巨大數字浮水印 */
+.slide.sec .ghostno{
+  position:absolute; right:64px; bottom:32px; z-index:0;
+  font-family:var(--mono); font-weight:700; font-size:280px; line-height:.8;
+  color:rgba(255,255,255,.10); letter-spacing:-.04em; pointer-events:none;
+}
+
+/* ── 排版 ─────────────────────────────────── */
+h1,h2,h3{margin:0; font-family:var(--serif); font-weight:900; text-wrap:balance; letter-spacing:.005em;}
+h1{font-size:var(--fs-h1); line-height:1.26;}
+h2{font-size:var(--fs-h2); line-height:1.34;}
+p{margin:0; line-height:1.8;}
+
+.mega{font-size:var(--fs-mega); line-height:1.16;}
+.h1s{font-size:52px; line-height:1.28;}
+
+.kicker{
+  font-family:var(--mono); font-size:var(--fs-eye); font-weight:500;
+  letter-spacing:.24em; color:var(--blogger-deep);
+  display:flex; align-items:center; gap:14px; margin-bottom:28px;
+}
+.kicker::after{content:""; height:1px; flex:1; background:linear-gradient(90deg,var(--blogger-sk),transparent); max-width:220px;}
+.kicker.b{color:var(--wp-deep);}
+.kicker.b::after{background:linear-gradient(90deg,var(--wp-sk),transparent);}
+
+.lead{font-size:var(--fs-lead); line-height:1.8; color:var(--mute); font-weight:300; max-width:30ch;}
+.lead.wide{max-width:42ch;}
+.lead b{color:var(--ink); font-weight:500;}
+.body{font-size:var(--fs-body); line-height:1.85; color:var(--mute); font-weight:300;}
+.body b{color:var(--ink); font-weight:500;}
+.note{font-family:var(--mono); font-size:var(--fs-note); color:var(--faint); letter-spacing:.02em; line-height:1.8;}
+.hl{color:var(--blogger-deep);}
+.hl.b{color:var(--wp-deep);}
+.rule{height:1px; background:var(--line); margin:28px 0;}
+.rule.short{max-width:340px;}
+
+.cols{display:grid; gap:40px;}
+.c-2{grid-template-columns:1fr 1fr;}
+.c-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+.c-side{grid-template-columns:300px 1fr; gap:56px;}
+.c-wide{grid-template-columns:1.02fr .98fr; gap:52px;}
+.c-media{grid-template-columns:1.1fr .9fr; gap:48px;}
+
+.stack{display:flex; flex-direction:column;}
+.g8{gap:8px;} .g12{gap:12px;} .g16{gap:16px;} .g20{gap:20px;}
+.g24{gap:24px;} .g30{gap:30px;} .g40{gap:40px;}
+
+/* 大序號 */
+.bignum{
+  font-family:var(--mono); font-size:120px; font-weight:700; line-height:1;
+  color:var(--blogger); letter-spacing:-.03em;
+}
+.bignum.b{color:var(--wp);}
+.bignum.ghost{color:var(--paper-3);}
+
+/* 卡片 */
+.card{
+  background:#fff; border:1px solid var(--line-2);
+  border-radius:4px; padding:30px 30px 32px;
+  display:flex; flex-direction:column; gap:14px;
+  box-shadow:0 2px 0 rgba(23,19,16,.03);
+}
+.card .idx{font-family:var(--mono); font-size:13px; letter-spacing:.18em; color:var(--blogger-deep);}
+.card.b .idx{color:var(--wp-deep);}
+.card h3{font-size:27px; font-family:var(--sans); font-weight:700;}
+.card p{font-size:19px; color:var(--mute); line-height:1.8; font-weight:300;}
+
+/* 大數字 */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
+.stats > div{padding:8px 30px; border-left:1px solid var(--line-2);}
+.stats > div:first-child{border-left:0; padding-left:0;}
+.stats .n{font-family:var(--mono); font-size:80px; font-weight:700; line-height:1.1; letter-spacing:-.03em; color:var(--blogger);}
+.stats .n.b{color:var(--wp);} .stats .n.dead{color:var(--paper-3);}
+.stats .u{font-size:20px; color:var(--mute); margin-top:12px; font-weight:300;}
+
+/* 三欄比較 */
+.tri{display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line-2); background:#fff;}
+.tri > div{padding:32px 28px; border-left:1px solid var(--line-2); display:flex; flex-direction:column; gap:16px;}
+.tri > div:first-child{border-left:0;}
+.tri .ico{width:44px;height:44px; display:grid; place-items:center; border:1px solid var(--wp); border-radius:5px;}
+.tri .ico svg{width:22px;height:22px;stroke:var(--wp); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+.tri h3{font-family:var(--sans); font-size:23px; font-weight:700; color:var(--ink);}
+.tri p{font-size:18px; color:var(--mute); line-height:1.8; font-weight:300;}
+
+/* ── Gmail 收件匣模擬 ───────────────────────── */
+.gmail{
+  background:#fff; border:1px solid var(--line-2); border-radius:10px;
+  box-shadow:0 24px 60px -34px rgba(23,19,16,.45); overflow:hidden;
+  font-family:var(--sans);
+}
+.gm-head{padding:26px 34px 20px; display:flex; align-items:flex-start; gap:18px;}
+.gm-subj{font-size:36px; font-weight:500; line-height:1.35; color:var(--ink); letter-spacing:.005em;}
+.gm-tag{
+  flex:0 0 auto; margin-top:10px; font-size:17px; color:var(--mute);
+  background:var(--paper-2); border-radius:4px; padding:4px 12px; white-space:nowrap;
+}
+.gm-from{display:flex; align-items:center; gap:18px; padding:0 34px 22px;}
+.gm-av{width:56px;height:56px;border-radius:50%; background:var(--paper-3); flex:0 0 auto;
+  display:grid; place-items:center;}
+.gm-av svg{width:34px;height:34px;fill:#fff;}
+.gm-who{font-size:23px; font-weight:700;}
+.gm-who span{font-weight:400; color:var(--mute);}
+.gm-to{font-size:19px; color:var(--faint); margin-top:4px;}
+.gm-time{margin-left:auto; font-size:19px; color:var(--faint); white-space:nowrap;}
+.gm-body{padding:6px 34px 34px; font-size:23px; line-height:1.95; color:var(--ink); font-weight:300;
+  display:flex; flex-direction:column; gap:20px; border-top:1px solid var(--line-2); padding-top:26px;}
+.gm-body a, .gm-link{color:#1a73e8; text-decoration:underline; text-underline-offset:3px; border:0; word-break:break-all;}
+.gm-body b{font-weight:700;}
+.gm-body .mark{background:var(--blogger-sk); box-shadow:0 0 0 4px var(--blogger-sk); border-radius:2px;}
+
+/* ── 截圖佔位框 ─────────────────────────────── */
+.shot{position:relative; width:100%; background:var(--paper-2);
+  border:1px solid var(--line-2); border-radius:8px; overflow:hidden; aspect-ratio:16/10;}
+.shot img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; z-index:2; display:block;}
+.shot img.dead{display:none;}
+.shot .ph{position:absolute; inset:0; z-index:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:14px; text-align:center; padding:20px;
+  background:repeating-linear-gradient(135deg, rgba(23,19,16,.028) 0 12px, transparent 12px 24px);}
+.shot .ph .fn{font-family:var(--mono); font-size:15px; color:var(--mute); letter-spacing:.04em;}
+.shot .ph .hint{font-family:var(--mono); font-size:12.5px; color:var(--faint); letter-spacing:.14em;}
+.shot .ph .box{width:52px;height:52px;border:1.5px dashed var(--blogger); border-radius:6px;}
+.shot.tall{aspect-ratio:4/3;}
+
+/* ── 版型縮圖（wireframe） ──────────────────── */
+.wires{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+.wire{background:#fff; border:1px solid var(--line-2); border-radius:5px; padding:14px; aspect-ratio:3/4;
+  display:flex; flex-direction:column; gap:8px;}
+.wire i{display:block; background:var(--paper-3); border-radius:2px;}
+.wire i.hd{height:14px; background:var(--blogger); opacity:.75;}
+.wire i.t{height:9px;} .wire i.s{height:6px; width:70%;}
+.wire i.blk{flex:1; background:var(--paper-2);}
+.wirecap{font-family:var(--mono); font-size:15px; color:var(--mute); text-align:center; margin-top:12px; letter-spacing:.06em;}
+
+/* ── 流程圖 ─────────────────────────────────── */
+.pipe{display:flex; align-items:stretch; gap:0; width:100%;}
+.pipe .node{
+  flex:1; background:#fff; border:1px solid var(--line-2); border-radius:5px;
+  padding:22px 18px; display:flex; flex-direction:column; gap:10px; align-items:center; text-align:center;
+}
+.pipe .node .t{font-size:21px; font-weight:700; line-height:1.4;}
+.pipe .node .s{font-family:var(--mono); font-size:14px; color:var(--faint); letter-spacing:.04em;}
+.pipe .node.o{border-top:3px solid var(--blogger);}
+.pipe .node.b{border-top:3px solid var(--wp);}
+.pipe .arw{flex:0 0 46px; display:grid; place-items:center; color:var(--paper-3);}
+.pipe .arw svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* 直式步驟 */
+.steps{display:flex; flex-direction:column; gap:0;}
+.steps .it{display:flex; gap:26px; align-items:flex-start; padding:18px 0; border-bottom:1px solid var(--line-2);}
+.steps .it:last-child{border-bottom:0;}
+.steps .no{font-family:var(--mono); font-size:19px; font-weight:700; color:var(--blogger-deep); flex:0 0 42px; padding-top:6px;}
+.steps .it.b .no{color:var(--wp-deep);}
+.steps .tx{font-size:28px; font-weight:500; line-height:1.5;}
+.steps .sb{font-size:19px; color:var(--mute); font-weight:300; margin-top:6px; line-height:1.7;}
+
+/* ── 程式碼／終端機 ─────────────────────────── */
+.code{background:#fff; border:1px solid var(--line-2); border-radius:4px;
+  font-family:var(--mono); font-size:19px; line-height:2; padding:22px 26px; color:var(--mute);}
+.code .k{color:var(--blogger-deep);} .code .w{color:var(--ink);} .code .c{color:var(--faint);}
+.code .b{color:var(--wp-deep);}
+.code.dark{background:#171310; border-color:#171310; color:#CFC7BE;}
+.code.dark .k{color:#FFAF57;} .code.dark .w{color:#fff;} .code.dark .c{color:#8B837B;}
+
+.term{background:#141010; border:1px solid #141010; border-radius:8px;
+  font-family:var(--mono); font-size:20px; line-height:1.95;
+  padding:26px 30px; overflow:hidden; display:flex; flex-direction:column;
+  box-shadow:0 20px 50px -34px rgba(23,19,16,.6);}
+.term .l{opacity:0; transform:translateY(6px); transition:.32s; white-space:pre-wrap; color:#CFC7BE;}
+.term .l.on{opacity:1; transform:none;}
+.term .p{color:#FFAF57;}
+.term .tool{color:#9A928A;}
+.term .tool b{color:#F2EEE9; font-weight:400;}
+.term .cmt{color:#7E766E;}
+.term .ok{color:#6FBF8B;}
+.term .link{color:#6FAEDA; text-decoration:underline; text-underline-offset:4px;}
+
+/* ── Discord 模擬 ───────────────────────────── */
+.dc{background:#313338; border-radius:10px; overflow:hidden; display:flex;
+  box-shadow:0 24px 60px -34px rgba(23,19,16,.55); height:100%;}
+.dc-side{width:210px; background:#2B2D31; padding:16px 10px; display:flex; flex-direction:column; gap:4px; flex:0 0 auto;}
+.dc-srv{color:#F2F3F5; font-size:17px; font-weight:700; padding:4px 8px 14px; border-bottom:1px solid rgba(255,255,255,.06); margin-bottom:8px;}
+.dc-ch{display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:5px;
+  color:#949BA4; font-size:16px;}
+.dc-ch b{color:#6D7580; font-weight:400;}
+.dc-ch.act{background:#404249; color:#F2F3F5;}
+.dc-ch.act b{color:#F2F3F5;}
+.dc-ch .mcp{margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+  color:#0B1114; background:#5AC08C; border-radius:3px; padding:2px 6px;}
+.dc-main{flex:1; display:flex; flex-direction:column; min-width:0;}
+.dc-top{padding:14px 22px; border-bottom:1px solid rgba(255,255,255,.06); color:#F2F3F5; font-size:17px; font-weight:700;}
+.dc-body{flex:1; padding:20px 22px; display:flex; flex-direction:column; gap:18px; min-height:0;}
+.dc-msg{display:flex; gap:14px;}
+.dc-msg .av{width:40px;height:40px;border-radius:50%;flex:0 0 auto; display:grid; place-items:center;
+  font-family:var(--mono); font-size:15px; font-weight:700; color:#fff;}
+.dc-msg.me .av{background:var(--wp);}
+.dc-msg.bot .av{background:var(--blogger);color:#241200;}
+.dc-msg .nm{color:#F2F3F5; font-size:17px; font-weight:700; display:flex; align-items:center; gap:8px;}
+.dc-msg .nm .bt{font-family:var(--mono); font-size:10px; letter-spacing:.08em; background:#5865F2; color:#fff; border-radius:3px; padding:2px 5px;}
+.dc-msg .tx{color:#DBDEE1; font-size:20px; line-height:1.65; margin-top:5px; font-weight:300;}
+.dc-msg .tx code{font-family:var(--mono); font-size:17px; background:#232428; color:#FFAF57; padding:2px 7px; border-radius:3px;}
+.dc-msg .tx .ok{color:#5AC08C;}
+
+/* ── 瀏覽器視窗外框 ─────────────────────────── */
+.win{background:#fff; border:1px solid var(--line-2); border-radius:9px; overflow:hidden;
+  box-shadow:0 22px 56px -34px rgba(23,19,16,.45);}
+.win-bar{display:flex; align-items:center; gap:8px; padding:12px 16px; background:var(--paper-2); border-bottom:1px solid var(--line-2);}
+.win-bar i{width:10px;height:10px;border-radius:50%;background:var(--paper-3);}
+.win-bar .url{margin-left:12px; font-family:var(--mono); font-size:14px; color:var(--faint);
+  background:#fff; border:1px solid var(--line-2); border-radius:20px; padding:5px 16px; flex:1;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.win-body{padding:44px 34px; display:grid; place-items:center; gap:20px; text-align:center;}
+
+/* ── 標籤 ───────────────────────────────────── */
+.tag{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:15px;
+  letter-spacing:.08em; border:1px solid var(--line); border-radius:3px; padding:7px 14px; color:var(--mute);}
+.tag.o{border-color:var(--blogger); color:var(--blogger-deep); background:var(--blogger-sk);}
+.tag.b{border-color:var(--wp); color:var(--wp-deep); background:var(--wp-sk);}
+.quote{border-left:3px solid var(--blogger); background:var(--blogger-sk);
+  padding:22px 28px; border-radius:0 4px 4px 0;}
+.quote.b{border-left-color:var(--wp); background:var(--wp-sk);}
+.quote p{font-size:28px; line-height:1.7;}
+
+/* ── 目錄頁 ───────────────────────────────── */
+.toc{display:grid; grid-auto-flow:column; grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(5, auto); gap:0 56px;}
+.toc a{display:flex; align-items:baseline; gap:18px; padding:13px 10px;
+  border-bottom:1px solid var(--line-2); text-decoration:none; color:inherit; transition:.18s; border-radius:2px;}
+.toc a:hover{background:var(--blogger-sk); border-bottom-color:var(--blogger);}
+.toc a:focus-visible{outline:2px solid var(--blogger); outline-offset:-2px;}
+.toc .no{font-family:var(--mono); font-size:13px; letter-spacing:.08em; color:var(--blogger-deep); flex:0 0 auto; width:64px;}
+.toc .nm{font-size:22px; font-weight:500; line-height:1.4;}
+.toc .mi{margin-left:auto; font-family:var(--mono); font-size:13px; color:var(--faint); flex:0 0 auto;}
+
+/* ── QR code ──────────────────────────────── */
+.qrcard{display:flex; flex-direction:column; align-items:center; gap:18px;}
+.qr{width:230px; height:230px; border-radius:6px; overflow:hidden; background:#fff; border:1px solid var(--line-2);}
+.qr svg{display:block;}
+.qr.empty{display:grid; place-items:center; background:var(--paper-2); border:1px dashed var(--blogger);
+  color:var(--faint); font-family:var(--mono); font-size:13px; text-align:center; line-height:2;}
+.qr.empty code{color:var(--blogger-deep); font-size:12px;}
+.qrcard .lbl{font-size:23px; font-weight:700; text-align:center;}
+.qrcard .sub{text-align:center;}
+
+/* 連結 */
+a{color:var(--wp-deep); text-decoration:none; border-bottom:1px solid var(--wp-sk);}
+a:hover{border-bottom-color:var(--wp);}
+a:focus-visible{outline:2px solid var(--wp); outline-offset:3px;}
+
+/* 隱藏來源模板 */
+template{display:none;}
+
+/* 五格以上的流程圖，字級縮一階才不會擠 */
+.pipe.sm .node{padding:20px 12px;}
+.pipe.sm .node .t{font-size:18px;}
+.pipe.sm .node .s{font-size:12.5px;}
+.pipe.sm .arw{flex:0 0 34px;}
+
+/* ── 講者大頭照 ─────────────────────────────── */
+.avatar{width:290px; height:290px; border-radius:3px; position:relative; overflow:hidden;
+  background:var(--paper-2); border:1px solid var(--line-2);}
+.avatar img{width:100%;height:100%;object-fit:cover; position:relative; z-index:2; display:block;}
+.avatar img.dead{display:none;}
+.avatar .fb{position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:12px; z-index:1;}
+.avatar .fb .ini{font-family:var(--serif); font-size:74px; font-weight:900; color:var(--paper-3);}
+.avatar .fb .fn{font-family:var(--mono); font-size:13px; letter-spacing:.12em; color:var(--faint);}
+</style>
+</head>
+<body data-unit-name="從停權到 Discord" data-home="#toc">
+<div id="viewport"><div id="stage">
+
+<section id="toc" class="slide top" data-sec="目錄" style="padding-top:88px">
+  <div class="kicker r">0829 桃園小聚 · 9 個單元 · 56 張</div>
+  <h1 class="r" style="--d:.06s; font-size:52px; margin-bottom:10px">從停權到 Discord。</h1>
+  <p class="note r" style="--d:.12s; margin-bottom:26px">點任一單元直接跳過去，或按 <span class="hl">→</span> 從封面開始。</p>
+
+  <div class="toc r" style="--d:.2s">
+    <a href="#" data-goto="1"><span class="no">UNIT 01</span><span class="nm">開場與講者</span><span class="mi">4 張</span></a>
+    <a href="#" data-goto="5"><span class="no">UNIT 02</span><span class="nm">停權那天</span><span class="mi">6 張</span></a>
+    <a href="#" data-goto="11"><span class="no">UNIT 03</span><span class="nm">決定搬家</span><span class="mi">5 張</span></a>
+    <a href="#" data-goto="16"><span class="no">UNIT 04</span><span class="nm">復刻設計</span><span class="mi">9 張</span></a>
+    <a href="#" data-goto="25"><span class="no">UNIT 05</span><span class="nm">蓋一個新家</span><span class="mi">7 張</span></a>
+    <a href="#" data-goto="32"><span class="no">UNIT 06</span><span class="nm">一萬篇搬進來</span><span class="mi">5 張</span></a>
+    <a href="#" data-goto="37"><span class="no">UNIT 07</span><span class="nm">推上線</span><span class="mi">7 張</span></a>
+    <a href="#" data-goto="44"><span class="no">UNIT 08</span><span class="nm">在 Discord 改網站</span><span class="mi">6 張</span></a>
+    <a href="#" data-goto="50"><span class="no">UNIT 09</span><span class="nm">收尾</span><span class="mi">7 張</span></a>
+  </div>
+</section>
+
+<section class="slide" data-sec="封面">
+  <div class="cols c-wide" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker r">0829 桃園小聚</div>
+      <h1 class="r mega" style="--d:.08s">從停權到<br>Discord。</h1>
+      <p class="lead wide r" style="--d:.2s">一個 13 年的 Blogger 被無預警停權，<br><b>我們花一個下午把它搬進 WordPress。</b></p>
+      <div class="rule short r" style="--d:.3s; margin:10px 0"></div>
+      <div class="note r" style="--d:.36s">OBERON LAI &nbsp;·&nbsp; 想點創意科技 CODOTX</div>
+    </div>
+
+    <div class="r" style="--d:.44s; display:grid; place-items:center">
+      <svg viewBox="0 0 320 320" style="width:330px;height:330px" aria-label="Blogger 橘與 WordPress 藍兩個圓交疊">
+        <circle cx="120" cy="160" r="96" fill="#F57C00" opacity=".92"/>
+        <circle cx="200" cy="160" r="96" fill="#21759B" opacity=".82"/>
+        <g stroke="#FBF9F6" stroke-width="5" fill="none" stroke-linecap="round">
+          <rect x="86" y="150" width="36" height="28" rx="4"/>
+          <path d="M92 150v-10a12 12 0 0 1 24 0v10"/>
+        </g>
+        <g stroke="#FBF9F6" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M196 150h38M196 164h38M196 178h24"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="講者介紹">
+  <div class="cols c-side" style="align-items:center">
+    <div class="r">
+      <div class="avatar">
+        <img src="avatar.jpg" alt="Oberon Lai 大頭照">
+        <div class="fb"><div class="ini">OL</div><div class="fn">avatar.jpg</div></div>
+      </div>
+    </div>
+    <div class="stack g20">
+      <div class="kicker r" style="--d:.08s">講者介紹</div>
+      <h1 class="r mega" style="--d:.14s; font-size:70px">Oberon Lai</h1>
+      <p class="lead wide r" style="--d:.22s">想點創意科技 Codotx 創辦人<br>軟體工程師 · AI 開發顧問</p>
+      <div class="stack g8 r" style="--d:.3s; margin-top:10px">
+        <p class="note"><span class="hl">2013</span>　投入 WordPress 開發，從佈景主題到客製化網站</p>
+        <p class="note"><span class="hl">2021</span>　創立想點創意科技，推出 OrderNotify for WooCommerce</p>
+        <p class="note"><span class="hl">2026</span>　推出 OrderChatz AI 客服方案，開設 AI 開發顧問服務</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="這件事的規模">
+  <div class="kicker r">先講結論的前提</div>
+  <h1 class="r h1s" style="--d:.08s; margin-bottom:52px">一夜之間，全部鎖住。</h1>
+  <div class="stats r" style="--d:.2s">
+    <div><div class="n">13</div><div class="u">年的累積</div></div>
+    <div><div class="n">10,044</div><div class="u">篇文章</div></div>
+    <div><div class="n dead">0</div><div class="u">篇還能編輯</div></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="今天要講什麼">
+  <div class="kicker b r">今天要講什麼</div>
+  <h1 class="r h1s" style="--d:.08s; margin-bottom:46px">三段路。</h1>
+  <div class="pipe r" style="--d:.2s">
+    <div class="node o"><div class="s">01</div><div class="t">停權</div><div class="s">申訴無門</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="s">02</div><div class="t">重建</div><div class="s">復刻 · 搬家 · 上線</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="s">03</div><div class="t">交付</div><div class="s">在 Discord 改網站</div></div>
+  </div>
+</section>
+
+<section class="slide sec o" data-sec="停權那天">
+  <div class="ghostno">01</div>
+  <div class="secno r">CHAPTER 01</div>
+  <h1 class="r mega" style="--d:.12s">停權那天</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">早上一封信，13 年的東西全部看不到。</p>
+</section>
+
+<section class="slide" data-sec="事情的起點">
+  <div class="gmail r">
+    <div class="gm-head">
+      <div class="gm-subj">系統已移除你的網誌<br>(Just a Girl. &lt;br&gt;Just Me.)</div>
+      <div class="gm-tag">收件匣</div>
+    </div>
+    <div class="gm-from">
+      <div class="gm-av"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.7-8 6v2h16v-2c0-3.3-3.6-6-8-6z"/></svg></div>
+      <div>
+        <div class="gm-who">Blogger <span>&lt;no-reply@blogger.com&gt;</span></div>
+        <div class="gm-to">寄給 我 ▾</div>
+      </div>
+      <div class="gm-time">上午 1:40（11 小時前）</div>
+    </div>
+    <div class="gm-body" style="font-size:22px; gap:16px">
+      <p>你好：</p>
+      <p>日前你的網誌遭人檢舉。經審查後，我們判定這個網誌違反社群規範，並已停用相關網址，讀者將無法看到這個網誌：<span class="gm-link">https://www.justgirl.me</span></p>
+      <p>你的內容違反了我們的<b class="mark">「惡意軟體和類似惡意內容」</b>政策。</p>
+      <p>如果認為這項處置有誤，可以提出申訴，但必須在接下來的 <b>90 天</b>內提出。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="當下的狀態" data-steps="3">
+  <div class="kicker r">收到信的當下</div>
+  <div class="steps" style="margin-top:8px">
+    <div class="it step" data-step="1">
+      <div class="no">後台</div>
+      <div><div class="tx">登得進去。</div><div class="sb">帳號沒事，看起來一切正常。</div></div>
+    </div>
+    <div class="it step" data-step="2">
+      <div class="no">文章</div>
+      <div><div class="tx">10,044 篇，一篇都打不開。</div><div class="sb">不能編輯、不能瀏覽、不能匯出。</div></div>
+    </div>
+    <div class="it step" data-step="3">
+      <div class="no">前台</div>
+      <div><div class="tx">只剩一張禁止畫面。</div><div class="sb">讀者連得上網址，看到的是「網誌已遭移除」。</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="讀者看到的畫面">
+  <div class="cols c-media" style="align-items:center">
+    <div class="win r">
+      <div class="win-bar"><i></i><i></i><i></i><span class="url">https://www.justgirl.me</span></div>
+      <div class="win-body" style="padding:58px 34px">
+        <svg viewBox="0 0 24 24" style="width:76px;height:76px;stroke:#F57C00;fill:none;stroke-width:1.4;stroke-linecap:round">
+          <circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>
+        </svg>
+        <div style="font-size:30px; font-weight:700">很抱歉，你要找的網誌已遭移除。</div>
+        <div class="note" style="font-size:18px">Blogger · 網址已停用</div>
+      </div>
+    </div>
+    <div class="stack g20">
+      <h1 class="r h1s" style="--d:.1s">13 年的讀者，<br>當天全部斷線。</h1>
+      <p class="lead r" style="--d:.2s">搜尋結果還在，<b>點進來就是這一頁。</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="申訴之後">
+  <div class="kicker r">按下申訴之後</div>
+  <div class="quote r" style="--d:.1s; max-width:900px">
+    <p>我們已收到你的申訴。<br>通常 10 個工作天內會通知結果，<br>但部分案件可能耗時更長。</p>
+  </div>
+  <p class="lead wide r" style="--d:.24s; margin-top:34px">官方罐頭訊息，沒有窗口、沒有進度、<b>沒有人可以問。</b></p>
+</section>
+
+<section class="slide" data-sec="最難的部分">
+  <h1 class="r mega" style="--d:.06s">除了等，<br>什麼都不能做。</h1>
+  <p class="lead wide r" style="--d:.24s; margin-top:38px">因為沒有人知道，<b>資料到底救不救得回來。</b></p>
+</section>
+
+<section class="slide sec b" data-sec="決定搬家">
+  <div class="ghostno">02</div>
+  <div class="secno r">CHAPTER 02</div>
+  <h1 class="r mega" style="--d:.12s">決定搬家</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">與其等一個不知道會不會來的回覆。</p>
+</section>
+
+<section class="slide" data-sec="轉向">
+  <div class="cols c-wide" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">於是我跟業主說</div>
+      <h1 class="r mega" style="--d:.1s; font-size:76px">不等了，<br>直接搬。</h1>
+      <p class="lead wide r" style="--d:.24s">平台是別人的，內容才是自己的。<br><b>搬到 WordPress，之後誰都關不掉。</b></p>
+    </div>
+    <div class="r" style="--d:.34s; display:grid; place-items:center">
+      <svg viewBox="0 0 320 220" style="width:340px" aria-label="從 Blogger 搬到 WordPress">
+        <rect x="8" y="52" width="112" height="116" rx="8" fill="none" stroke="#F57C00" stroke-width="3"/>
+        <path d="M28 70h72M28 150h48" stroke="#F57C00" stroke-width="4" stroke-linecap="round" opacity=".45"/>
+        <path d="M40 86l48 48M88 86l-48 48" stroke="#F57C00" stroke-width="5" stroke-linecap="round"/>
+        <path d="M138 110h44M176 100l12 10-12 10" fill="none" stroke="#8B837B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="200" y="52" width="112" height="116" rx="8" fill="none" stroke="#21759B" stroke-width="3"/>
+        <path d="M220 82h72M220 104h72M220 126h48" stroke="#21759B" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+        <circle cx="256" cy="36" r="14" fill="none" stroke="#21759B" stroke-width="3"/>
+        <path d="M250 36l4 5 8-9" fill="none" stroke="#21759B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="運氣好的地方">
+  <h1 class="r mega" style="--d:.06s">還好，<br>業主有備份。</h1>
+  <p class="lead wide r" style="--d:.22s; margin-top:36px">這件事能不能救，<b>從停權那天之前就決定了。</b></p>
+</section>
+
+<section class="slide" data-sec="兩層保險" data-steps="2">
+  <div class="kicker b r">他一直在做的兩件事</div>
+  <div class="cols c-2" style="margin-top:10px">
+    <div class="card step" data-step="1">
+      <div class="idx">每 週</div>
+      <h3>固定匯出 XML 備份</h3>
+      <p>Blogger 後台的完整備份檔，一週一份，存在自己的電腦裡。</p>
+    </div>
+    <div class="card b step" data-step="2">
+      <div class="idx">每 天</div>
+      <h3>文章原稿留在 iPad</h3>
+      <p>寫作在 iPad 上完成再貼上去，所以最新的內容不只存在 Blogger。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="要做的事">
+  <div class="kicker b r">於是問題變得很單純</div>
+  <div class="steps" style="margin-top:12px">
+    <div class="it b">
+      <div class="no">01</div>
+      <div><div class="tx">還原 10,000 篇備份。</div><div class="sb">交給 AI 讀 XML，直接匯進 WordPress。</div></div>
+    </div>
+    <div class="it b">
+      <div class="no">02</div>
+      <div><div class="tx">這週的新文章，手動補上。</div><div class="sb">幾篇而已，從 iPad 貼回來就好。</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide sec k" data-sec="復刻設計">
+  <div class="ghostno">03</div>
+  <div class="secno r">CHAPTER 03</div>
+  <h1 class="r mega" style="--d:.12s">先把樣子<br>復刻回來</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">搬家的第一步，我從設計面開始。</p>
+</section>
+
+<section class="slide" data-sec="沒有原稿可以看">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker r">第一個難題</div>
+      <h1 class="r h1s" style="--d:.1s">網站已經<br>打不開了，<br>怎麼照著做？</h1>
+    </div>
+    <div class="r" style="--d:.26s; display:grid; place-items:center">
+      <svg viewBox="0 0 260 200" style="width:280px" aria-label="打不開的網站">
+        <rect x="20" y="24" width="220" height="152" rx="9" fill="none" stroke="#E7E0D6" stroke-width="3"/>
+        <path d="M20 58h220" stroke="#E7E0D6" stroke-width="3"/>
+        <circle cx="40" cy="41" r="5" fill="#E7E0D6"/><circle cx="58" cy="41" r="5" fill="#E7E0D6"/>
+        <path d="M96 92l68 68M164 92l-68 68" stroke="#F57C00" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="Web Archive">
+  <div class="cols c-media" style="align-items:center">
+    <div class="shot r" style="--d:.06s">
+      <img src="images/wayback-snapshot.jpg" alt="Web Archive 上的網站快照">
+      <div class="ph"><div class="box"></div>
+        <div class="fn">images/wayback-snapshot.jpg</div>
+        <div class="hint">WEB ARCHIVE 快照畫面</div></div>
+    </div>
+    <div class="stack g20">
+      <div class="kicker r" style="--d:.12s">解法</div>
+      <h1 class="r h1s" style="--d:.18s">去 Web Archive<br>把它撈回來。</h1>
+      <p class="lead r" style="--d:.26s">找到還活著的快照，<br><b>把每一種版型都截圖下來。</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="版型盤點">
+  <div class="kicker r">好消息是，頁面沒幾種</div>
+  <div class="wires r" style="--d:.14s; margin-top:6px">
+    <div>
+      <div class="wire"><i class="hd"></i><i class="blk"></i><i class="t"></i><i class="s"></i></div>
+      <div class="wirecap">首頁</div>
+    </div>
+    <div>
+      <div class="wire"><i class="hd"></i><i class="t"></i><i class="s"></i><i class="t"></i><i class="s"></i><i class="blk"></i></div>
+      <div class="wirecap">文章列表</div>
+    </div>
+    <div>
+      <div class="wire"><i class="hd"></i><i class="s"></i><i class="t"></i><i class="t"></i><i class="blk"></i></div>
+      <div class="wirecap">分類列表</div>
+    </div>
+    <div>
+      <div class="wire"><i class="hd"></i><i class="t"></i><i class="blk"></i><i class="s"></i></div>
+      <div class="wirecap">文章內頁</div>
+    </div>
+  </div>
+  <p class="lead wide r" style="--d:.3s; margin-top:30px">四種版型截好，<b>整個站的設計就盤點完了。</b></p>
+</section>
+
+<section class="slide" data-sec="設計工具">
+  <div class="kicker b r">我用的 AI 設計工具</div>
+  <h1 class="r mega" style="--d:.1s">Claude Design</h1>
+  <p class="lead wide r" style="--d:.24s; margin-top:32px">截圖丟進去，<b>它認得出這個網站長什麼樣子。</b></p>
+</section>
+
+<section class="slide" data-sec="好處 01">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">01</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">從截圖擷取<br>設計元素</h1>
+      <p class="lead r" style="--d:.2s">顏色、字型、按鈕樣式一次抓出來，<br><b>整理成一套設計系統再開始設計。</b></p>
+    </div>
+    <div class="shot r" style="--d:.28s">
+      <img src="images/claude-design-system.jpg" alt="Claude Design 擷取出的設計系統">
+      <div class="ph"><div class="box"></div>
+        <div class="fn">images/claude-design-system.jpg</div>
+        <div class="hint">擷取出的色票 / 字型 / 元件</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="好處 02">
+  <div class="cols c-side" style="align-items:center">
+    <div class="bignum r ghost">02</div>
+    <div class="stack g24">
+      <h1 class="r h1s" style="--d:.1s">生出來的元件，<br>可以自己手改。</h1>
+      <p class="lead wide r" style="--d:.2s">只是要改幾個字，還要回頭叫 AI 改，<br><b>反而更慢。</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="好處 03">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">03</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">同一個區塊，<br>一次給你五版</h1>
+      <p class="lead r" style="--d:.2s">舊架構撐不住新需求的地方，<br><b>讓它多做幾版，我挑。</b></p>
+    </div>
+    <div class="shot r" style="--d:.28s">
+      <img src="images/claude-design-variants.jpg" alt="首頁的五個版本">
+      <div class="ph"><div class="box"></div>
+        <div class="fn">images/claude-design-variants.jpg</div>
+        <div class="hint">首頁 / 主選單的五個版本</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="它還會做的事">
+  <div class="kicker b r">除此之外</div>
+  <div class="tri r" style="--d:.14s">
+    <div>
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="13" height="10" rx="1.5"/><rect x="17" y="8" width="5" height="12" rx="1.5"/><path d="M6 18h5"/></svg></div>
+      <h3>響應式自動化</h3>
+      <p>手機、平板、桌機的間距與字級，照設計規範自動推算，不用手調斷點。</p>
+    </div>
+    <div>
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <h3>無障礙即時檢測</h3>
+      <p>對比度、字級是否符合 WCAG，設計當下就檢查，並直接給修正建議。</p>
+    </div>
+    <div>
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></div>
+      <h3>設計即程式碼</h3>
+      <p>元件可以直接輸出成 CSS / Tailwind / React，設計稿與成品不會走鐘。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide sec od" data-sec="蓋一個新家">
+  <div class="ghostno">04</div>
+  <div class="secno r">CHAPTER 04</div>
+  <h1 class="r mega" style="--d:.12s">蓋一個新家</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">佈景主題與本機開發環境。</p>
+</section>
+
+<section class="slide" data-sec="佈景主題的選擇">
+  <div class="kicker r">不挑現成的佈景主題</div>
+  <h1 class="r h1s" style="--d:.08s">用自己整理過的<br>那一套來長。</h1>
+  <div class="r" style="--d:.2s; margin-top:34px">
+    <span class="tag o">everything-wp</span>
+  </div>
+  <p class="note r" style="--d:.28s; margin-top:18px">github.com/oberonlai/everything-wp</p>
+</section>
+
+<section class="slide" data-sec="為什麼用區塊主題">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">而且是區塊佈景主題</div>
+      <h1 class="r h1s" style="--d:.1s">因為之後<br>要讓業主自己改。</h1>
+      <p class="lead r" style="--d:.2s">版型交出去以後，<br><b>他在後台就能動內容，不用回來找我。</b></p>
+    </div>
+    <div class="r" style="--d:.3s; display:grid; place-items:center">
+      <svg viewBox="0 0 240 200" style="width:260px" aria-label="區塊組成的頁面">
+        <rect x="30" y="18" width="180" height="34" rx="4" fill="#21759B" opacity=".85"/>
+        <rect x="30" y="62" width="112" height="80" rx="4" fill="none" stroke="#21759B" stroke-width="3"/>
+        <rect x="152" y="62" width="58" height="38" rx="4" fill="none" stroke="#21759B" stroke-width="3"/>
+        <rect x="152" y="110" width="58" height="32" rx="4" fill="none" stroke="#21759B" stroke-width="3" stroke-dasharray="6 6"/>
+        <rect x="30" y="152" width="180" height="26" rx="4" fill="#E7E0D6"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="本機開發環境">
+  <div class="kicker b r">本機環境我用</div>
+  <h1 class="r mega" style="--d:.08s; font-size:76px">ValetPress</h1>
+  <div class="cols c-2 r" style="--d:.22s; margin-top:40px">
+    <p class="body">開機的時候 PHP、Nginx、MySQL <b>就已經在背景跑了</b>，不用每次重啟。</p>
+    <p class="body">不必每個站都養一個容器，<b>硬碟空間省很多。</b></p>
+  </div>
+  <p class="note r" style="--d:.32s; margin-top:26px">oberonlai.blog/valetpress-setup</p>
+</section>
+
+<section class="slide" data-sec="10 秒一個站">
+  <div class="cols c-media" style="align-items:center">
+    <div class="term r" style="--d:.06s; min-height:300px">
+      <template class="lines">
+cmt| ● 開一個全新的 WordPress 本機站
+p| $ vp empty
+tool| 建立資料庫 <b>justgirl_local</b>
+tool| 下載並安裝 WordPress
+ok| ✔ https://justgirl.test 已就緒
+      </template>
+    </div>
+    <div class="stack g20">
+      <div class="kicker r" style="--d:.14s">一行指令</div>
+      <h1 class="r h1s" style="--d:.2s; font-size:48px">10 秒，<br>一個乾淨的站。</h1>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="初始化主題">
+  <div class="kicker r">在 wp-content/themes 開一個空資料夾，然後</div>
+  <div class="term r" style="--d:.12s; min-height:296px">
+    <template class="lines">
+p| $ /everything-wp:init-theme
+tool| 建立 <b>theme.json</b>・<b>templates/</b>・<b>parts/</b>
+tool| 掛上 PHPCS・PHPStan・PHPUnit・i18n
+tool| 產生 GitHub Actions 與 build 腳本
+ok| ✔ 區塊佈景主題的骨架完成
+    </template>
+  </div>
+</section>
+
+<section class="slide" data-sec="把設計稿交出去">
+  <div class="kicker b r">Claude Design 右上角的 Share → 輸出提示詞</div>
+  <div class="quote b r" style="--d:.12s; max-width:920px">
+    <p>用這份設計，<br>做成 WordPress 區塊佈景主題。</p>
+  </div>
+  <p class="lead wide r" style="--d:.26s; margin-top:34px">貼進 Claude Code，<b>剩下的就是等它跑完。</b></p>
+</section>
+
+<section class="slide sec bd" data-sec="一萬篇搬進來">
+  <div class="ghostno">05</div>
+  <div class="secno r">CHAPTER 05</div>
+  <h1 class="r mega" style="--d:.12s">一萬篇<br>搬進來</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">還有兩個一定會踩到的坑。</p>
+</section>
+
+<section class="slide" data-sec="匯入">
+  <div class="kicker b r">視覺細修完之後</div>
+  <h1 class="r h1s" style="--d:.08s; margin-bottom:44px">請它讀 8 個 XML，<br>自己搬進去。</h1>
+  <div class="stats r" style="--d:.2s">
+    <div><div class="n b">8</div><div class="u">個備份檔</div></div>
+    <div><div class="n b">10,044</div><div class="u">篇文章</div></div>
+    <div><div class="n b">1:1</div><div class="u">網址・分類・標籤照舊</div></div>
+  </div>
+</section>
+
+<section class="slide" data-sec="坑 01 · ?m=1">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">01</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">那個 <span class="hl">?m=1</span></h1>
+      <p class="lead r" style="--d:.2s">Blogger 拿它當手機版參數；<br>WordPress 拿它當<b>彙整月份篩選</b>。</p>
+      <p class="lead r" style="--d:.28s">直接帶進來，<b>會變成一整片 404。</b></p>
+    </div>
+    <div class="r" style="--d:.34s">
+      <div class="code">
+        <span class="c">舊網址（Google 上還有幾萬筆）</span><br>
+        /2019/05/post.html<span class="k">?m=1</span><br><br>
+        <span class="c">↓ 301</span><br><br>
+        <span class="c">新網址</span><br>
+        <span class="w">/2019/05/post.html</span>
+      </div>
+      <p class="note" style="margin-top:18px">請 AI 針對這個參數另外做一條轉址規則。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="坑 02 · 區塊註解">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">02</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">HTML 區塊<br>要補註解標記</h1>
+      <p class="lead r" style="--d:.2s">Blogger 的內容是純 HTML，<br>少了區塊編輯器的註解，<br><b>後台就打不開那篇文章。</b></p>
+    </div>
+    <div class="r" style="--d:.34s">
+      <div class="code dark">
+        <span class="c">&lt;!-- wp:html --&gt;</span><br>
+        <span class="w">&lt;div class="post"&gt;…&lt;/div&gt;</span><br>
+        <span class="c">&lt;!-- /wp:html --&gt;</span>
+      </div>
+      <p class="note" style="margin-top:18px">轉換的時候就要一起處理，一萬篇不會想再跑第二次。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="本機驗收" data-steps="3">
+  <div class="kicker b r">推上線之前，在本機先看過</div>
+  <div class="steps" style="margin-top:8px">
+    <div class="it b step" data-step="1"><div class="no">01</div><div><div class="tx">每一種版型都開一遍。</div></div></div>
+    <div class="it b step" data-step="2"><div class="no">02</div><div><div class="tx">文章總數對得起來。</div></div></div>
+    <div class="it b step" data-step="3"><div class="no">03</div><div><div class="tx">舊網址點下去要到得了新文章。</div></div></div>
+  </div>
+</section>
+
+<section class="slide sec o" data-sec="推上線">
+  <div class="ghostno">06</div>
+  <div class="secno r">CHAPTER 06</div>
+  <h1 class="r mega" style="--d:.12s">推上線</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">主機、自動部署，還有一個伏筆。</p>
+</section>
+
+<section class="slide" data-sec="主機">
+  <div class="kicker r">遠端主機我選</div>
+  <h1 class="r mega" style="--d:.08s; font-size:78px">InstaWP</h1>
+  <p class="lead wide r" style="--d:.22s; margin-top:32px">本來是給開發者用的 WordPress 服務，<br><b>後來也開始賣主機。</b></p>
+</section>
+
+<section class="slide" data-sec="價格">
+  <div class="kicker r">方案很便宜</div>
+  <div class="cols c-2 r" style="--d:.14s; margin-top:14px">
+    <div class="card">
+      <div class="idx">測 試 用</div>
+      <h3 style="font-family:var(--mono); font-size:56px">$2<span style="font-size:22px; color:var(--faint)"> / 月</span></h3>
+      <p>不綁正式網址，純測試站就夠用。</p>
+    </div>
+    <div class="card b">
+      <div class="idx">正 式 用</div>
+      <h3 style="font-family:var(--mono); font-size:56px">$5<span style="font-size:22px; color:var(--faint)"> / 月</span></h3>
+      <p>可以綁自己的網址，主機額度也比較多。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="選它的理由 01">
+  <div class="cols c-side" style="align-items:center">
+    <div class="bignum r ghost">01</div>
+    <div class="stack g24">
+      <h1 class="r h1s" style="--d:.1s">它有 CLI，<br>AI 可以自己開站。</h1>
+      <p class="lead wide r" style="--d:.2s">底層已經針對 WordPress 做過相容，<br><b>Agent 直接用指令開測試站、同步網站。</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="選它的理由 02">
+  <div class="cols c-side" style="align-items:center">
+    <div class="bignum r ghost b">02</div>
+    <div class="stack g24">
+      <h1 class="r h1s" style="--d:.1s">後台可以直接<br>開一個 MCP。</h1>
+      <p class="lead wide r" style="--d:.2s">拿到一條網址，就能接上各家模型的桌面應用程式。</p>
+      <div class="r" style="--d:.3s"><span class="tag b">這條網址等一下會再出現</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="部署流程">
+  <div class="kicker r">本機做完之後，剩下的都自動</div>
+  <div class="pipe r" style="--d:.16s; margin-top:6px">
+    <div class="node o"><div class="t">git push</div><div class="s">提交這次更新</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node o"><div class="t">GitHub Actions</div><div class="s">測試通過才往下</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">自動部署測試站</div><div class="s">InstaWP · SSH</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">agent-browser</div><div class="s">實際開網頁驗收</div></div>
+  </div>
+  <p class="lead wide r" style="--d:.34s; margin-top:34px">更新完不是說「應該好了」，<b>是真的去點一遍。</b></p>
+</section>
+
+<section class="slide" data-sec="CDN">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">效能</div>
+      <h1 class="r h1s" style="--d:.1s">CDN 是 Bunny，<br>最近的機房在新加坡。</h1>
+      <p class="lead r" style="--d:.2s">台灣連過去，<b>體感還可以。</b></p>
+    </div>
+    <div class="r" style="--d:.3s; display:grid; place-items:center">
+      <svg viewBox="30 20 180 175" style="width:330px" aria-label="台灣連到新加坡機房">
+        <circle cx="70" cy="60" r="9" fill="#F57C00"/>
+        <circle cx="170" cy="140" r="9" fill="#21759B"/>
+        <path d="M70 60C110 70 130 100 170 140" fill="none" stroke="#8B837B" stroke-width="2.5" stroke-dasharray="7 7"/>
+        <circle cx="70" cy="60" r="24" fill="none" stroke="#F57C00" stroke-width="2" opacity=".4"/>
+        <circle cx="170" cy="140" r="24" fill="none" stroke="#21759B" stroke-width="2" opacity=".4"/>
+        <text x="70" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#56504A">TW</text>
+        <text x="170" y="180" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#56504A">SG</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide sec k" data-sec="在 Discord 改網站">
+  <div class="ghostno">07</div>
+  <div class="secno r">CHAPTER 07</div>
+  <h1 class="r mega" style="--d:.12s">在 Discord<br>改網站</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">交付之後，業主才是每天要用的人。</p>
+</section>
+
+<section class="slide" data-sec="真正的門檻">
+  <div class="kicker r">網站做完之後才是問題</div>
+  <h1 class="r h1s" style="--d:.08s">業主習慣的是<br>Blogger 的後台。</h1>
+  <p class="lead wide r" style="--d:.22s; margin-top:32px">WordPress 後台對他來說，<b>選單太多、名詞太多。</b></p>
+</section>
+
+<section class="slide" data-sec="解法">
+  <h1 class="r mega" style="--d:.06s">那就<br>不要進後台。</h1>
+  <p class="lead wide r" style="--d:.24s; margin-top:36px">改成他每天都在用的那個聊天視窗。</p>
+</section>
+
+<section class="slide" data-sec="實際上長這樣" data-steps="2">
+  <div class="r" style="--d:.06s; height:452px">
+    <div class="dc">
+      <div class="dc-side">
+        <div class="dc-srv">CODOTX 客戶專區</div>
+        <div class="dc-ch"><b>#</b>公告</div>
+        <div class="dc-ch act"><b>#</b>justgirl<span class="mcp">MCP</span></div>
+        <div class="dc-ch"><b>#</b>其他客戶</div>
+        <div class="dc-ch"><b>#</b>閒聊</div>
+      </div>
+      <div class="dc-main">
+        <div class="dc-top"># justgirl</div>
+        <div class="dc-body">
+          <div class="dc-msg me">
+            <div class="av">業主</div>
+            <div><div class="nm">Just a Girl</div>
+              <div class="tx">首頁最上面那句話，幫我改成「今天也要好好過」。</div></div>
+          </div>
+          <div class="dc-msg bot step" data-step="1">
+            <div class="av">K</div>
+            <div><div class="nm">Kiro <span class="bt">BOT</span></div>
+              <div class="tx">好，我看一下首頁。<br><code>instawp</code> 讀取首頁區塊 → 找到標題</div></div>
+          </div>
+          <div class="dc-msg bot step" data-step="2">
+            <div class="av">K</div>
+            <div><div class="nm">Kiro <span class="bt">BOT</span></div>
+              <div class="tx"><span class="ok">✔ 已更新</span>，你重新整理看看。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="用什麼串的">
+  <div class="kicker r">社群夥伴阿竣寫的開源工具</div>
+  <h1 class="r h1s" style="--d:.08s; font-size:48px; margin-bottom:38px">kiro-discord-bot</h1>
+  <div class="pipe r" style="--d:.2s">
+    <div class="node b"><div class="t">Discord</div><div class="s">業主打字的地方</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node o"><div class="t">Kiro CLI</div><div class="s">亞馬遜的 AI 服務</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">MCP</div><div class="s">真的去改網站</div></div>
+  </div>
+  <p class="note r" style="--d:.32s; margin-top:26px">github.com/nczz/kiro-discord-bot</p>
+</section>
+
+<section class="slide" data-sec="為什麼用 Discord">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">Discord 的好處</div>
+      <h1 class="r h1s" style="--d:.1s">權限可以<br>切到「頻道」。</h1>
+      <p class="lead r" style="--d:.2s">還記得 InstaWP 那條 MCP 網址嗎？<br><b>把它只掛在這個客戶的頻道上。</b></p>
+      <p class="lead r" style="--d:.28s">這個網站，<b>只有他碰得到。</b></p>
+    </div>
+    <div class="r" style="--d:.34s; display:grid; place-items:center">
+      <svg viewBox="10 10 240 176" style="width:330px" aria-label="每個頻道對應各自的 MCP 權限">
+        <rect x="18" y="20" width="120" height="40" rx="6" fill="none" stroke="#E7E0D6" stroke-width="2.5"/>
+        <rect x="18" y="76" width="120" height="40" rx="6" fill="none" stroke="#21759B" stroke-width="3"/>
+        <rect x="18" y="132" width="120" height="40" rx="6" fill="none" stroke="#E7E0D6" stroke-width="2.5"/>
+        <text x="34" y="46" font-family="JetBrains Mono, monospace" font-size="15" fill="#8B837B">#公告</text>
+        <text x="34" y="102" font-family="JetBrains Mono, monospace" font-size="15" fill="#16536E">#justgirl</text>
+        <text x="34" y="158" font-family="JetBrains Mono, monospace" font-size="15" fill="#8B837B">#其他</text>
+        <path d="M142 96h44" fill="none" stroke="#21759B" stroke-width="2.5" stroke-dasharray="5 5"/>
+        <rect x="190" y="76" width="44" height="40" rx="6" fill="#21759B"/>
+        <circle cx="203" cy="96" r="6" fill="none" stroke="#fff" stroke-width="2.5"/>
+        <path d="M209 96h16M218 96v6M224 96v5" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="212" y="132" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#56504A">MCP</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide sec b" data-sec="收尾">
+  <div class="ghostno">08</div>
+  <div class="secno r">CHAPTER 08</div>
+  <h1 class="r mega" style="--d:.12s">收尾</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">整件事，就這五步。</p>
+</section>
+
+<section class="slide" data-sec="整個過程">
+  <div class="kicker b r">整個搬家過程</div>
+  <div class="pipe sm r" style="--d:.16s; margin-top:6px">
+    <div class="node o"><div class="t">Claude Design</div><div class="s">復刻既有頁面</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">區塊佈景主題</div><div class="s">本機做完</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">AI 匯入備份</div><div class="s">10,044 篇</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">InstaWP</div><div class="s">自動部署上線</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node o"><div class="t">MCP × Discord</div><div class="s">交給業主自己改</div></div>
+  </div>
+  <p class="lead wide r" style="--d:.34s; margin-top:40px">全部加起來，<b>一個下午。</b></p>
+</section>
+
+<section class="slide" data-sec="然後">
+  <h1 class="r mega" style="--d:.06s">然後，<br>隔天早上——</h1>
+</section>
+
+<section class="slide" data-sec="隔天的信">
+  <div class="gmail r">
+    <div class="gm-head">
+      <div class="gm-subj">Your blog titled "Just a Girl. &lt;br&gt;Just Me." has been reinstated</div>
+      <div class="gm-tag">收件匣</div>
+    </div>
+    <div class="gm-from">
+      <div class="gm-av"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.7-8 6v2h16v-2c0-3.3-3.6-6-8-6z"/></svg></div>
+      <div>
+        <div class="gm-who">Blogger <span>&lt;no-reply@blogger.com&gt;</span></div>
+        <div class="gm-to">寄給 我 ▾</div>
+      </div>
+      <div class="gm-time">2026年8月5日 下午 9:37</div>
+    </div>
+    <div class="gm-body" style="font-size:22px; gap:16px">
+      <p>Hello,</p>
+      <p>We have re-evaluated your blog against Blogger Community Guidelines. Upon review, <b class="mark">the blog has been reinstated.</b> You may access the blog at <span class="gm-link">https://www.justgirl.me</span>.</p>
+      <p>Sincerely,<br>The Blogger Team</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="所以呢">
+  <h1 class="r mega" style="--d:.06s; font-size:74px">平台可以把網站還你，<br>但不會把主控權還你。</h1>
+  <p class="lead wide r" style="--d:.26s; margin-top:38px">下一次還會不會來，<b>不是你能決定的。</b></p>
+</section>
+
+<section class="slide" data-sec="今天提到的工具">
+  <div class="kicker b r">今天提到的三個連結</div>
+  <div class="cols c-3 r" style="--d:.16s; margin-top:6px">
+    <div class="qrcard">
+      <div class="qr" data-qr="https://github.com/oberonlai/everything-wp/blob/main/README.zh-TW.md"></div>
+      <div class="lbl">everything-wp</div>
+      <div class="note sub">區塊佈景主題的骨架</div>
+    </div>
+    <div class="qrcard">
+      <div class="qr" data-qr="https://oberonlai.blog/valetpress-setup/"></div>
+      <div class="lbl">ValetPress</div>
+      <div class="note sub">本機開發環境</div>
+    </div>
+    <div class="qrcard">
+      <div class="qr" data-qr="https://github.com/nczz/kiro-discord-bot"></div>
+      <div class="lbl">kiro-discord-bot</div>
+      <div class="note sub">Discord × Kiro × MCP</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-sec="一對一教學">
+  <div class="cols c-wide" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">一對一教學</div>
+      <h1 class="r mega" style="--d:.1s; font-size:74px">想學<br>AI 開發嗎？</h1>
+      <p class="lead wide r" style="--d:.22s">今天講的這一整套流程，<br><b>我可以一對一帶你做一遍。</b></p>
+      <p class="note r" style="--d:.3s">內容跟時間都可以談 · 加 LINE 直接問我</p>
+    </div>
+
+    <div class="stack g20 r" style="--d:.36s">
+      <div style="display:flex; align-items:center; gap:28px">
+        <div class="qr" data-qr="https://line.me/R/ti/p/@codotx" style="width:196px; height:196px"></div>
+        <div class="stack g12">
+          <span class="tag" style="border-color:#06C755; color:#04853B; background:rgba(6,199,85,.1)">LINE 官方帳號</span>
+          <div style="font-family:var(--mono); font-size:44px; font-weight:700; letter-spacing:-.02em">@codotx</div>
+        </div>
+      </div>
+      <div class="rule" style="margin:26px 0 0"></div>
+      <div class="note">OBERON LAI · 想點創意科技 CODOTX　|　0829 桃園小聚</div>
+    </div>
+  </div>
+</section>
+</div></div>
+<script>
+/* ═══════════════════════════════════════════════
+   從停權到 Discord — 共用簡報引擎（沿用方舟工作坊的引擎，加上 .shot 圖片 fallback）
+   每個單元 HTML 只要放 <section class="slide"> 即可，
+   邊框、頁碼、導覽列、動畫都由這支檔案接手。
+
+   單元檔的 <body> 屬性：
+     data-unit      單元編號，例如 "04"
+     data-unit-name 單元名稱，例如 "認識 Claude Desktop"
+     data-prev      上一個單元檔名（可省略）
+     data-next      下一個單元檔名（可省略）
+
+   鍵盤：→ 下一步／← 上一步／Tab 全螢幕／R 重播／Space 回目錄
+   ═══════════════════════════════════════════════ */
+(function(){
+'use strict';
+
+var D = document, W = window;
+var reduce = W.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function $(sel, root){ return (root||D).querySelector(sel); }
+function $$(sel, root){ return Array.prototype.slice.call((root||D).querySelectorAll(sel)); }
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+/* ─── 舞台縮放 ─────────────────────────────── */
+var stage = $('#stage');
+function fit(){
+  var s = Math.min(W.innerWidth/1280, W.innerHeight/720);
+  var x = (W.innerWidth  - 1280*s)/2;
+  var y = (W.innerHeight -  720*s)/2;
+  stage.style.transform = 'translate('+x+'px,'+y+'px) scale('+s+')';
+}
+W.addEventListener('resize', fit); fit();
+
+/* ─── 版面骨架 ─────────────────────────────── */
+var B = D.body.dataset;
+var UNIT = B.unit || '', UNAME = B.unitName || '';
+var PREV = B.prev || '', NEXT = B.next || '', HOME = B.home || 'index.html';
+
+var chrome = D.createElement('div');
+chrome.innerHTML =
+  '<div class="hull"></div>' +
+  '<div class="eyebrow-slot">' +
+    (UNIT ? '<span class="u">UNIT ' + UNIT + '</span><span>·</span>' : '') +
+    '<span id="ebSec"></span>' +
+  '</div>' +
+  '<div id="pageno"><span id="pnCur">01</span> / <span id="pnAll">01</span></div>' +
+  '<div id="railwrap"><div id="rail"></div></div>' +
+  '<div id="nav">' +
+    '<button id="btnPrev" aria-label="上一步"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+    '<button id="btnNext" aria-label="下一步"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>' +
+  '</div>' +
+  '<div id="help">' +
+    '<button type="button" data-act="full"><kbd>Tab</kbd> 全螢幕</button>' +
+    '<button type="button" data-act="home"><kbd>Space</kbd> 目錄</button>' +
+  '</div>';
+while(chrome.firstChild) stage.appendChild(chrome.firstChild);
+
+/* ─── 模板展開（同一份 UI 重複用於多張投影片） ─── */
+$$('[data-tpl]').forEach(function(host){
+  var tpl = D.getElementById('tpl-' + host.dataset.tpl);
+  if(tpl) host.appendChild(tpl.content.cloneNode(true));
+});
+
+/* ─── 實作計時器（一律手動點擊開始） ───────────── */
+var TSTORE_TTL = 6*60*60*1000;
+function tKey(i){ return 'ark-t-' + UNIT + '-' + i; }
+function tLoad(i){
+  try{
+    var raw = localStorage.getItem(tKey(i));
+    if(!raw) return null;
+    var o = JSON.parse(raw);
+    if(!o || Date.now() - o.at > TSTORE_TTL){ localStorage.removeItem(tKey(i)); return null; }
+    if(o.run) o.left = Math.max(0, o.left - Math.round((Date.now() - o.at)/1000));
+    return o;
+  }catch(e){ return null; }
+}
+function tSave(i, st){
+  try{ localStorage.setItem(tKey(i), JSON.stringify({left:st.left, run:st.run, at:Date.now()})); }catch(e){}
+}
+
+$$('.atimer').forEach(function(el, i){
+  var mins  = +(el.dataset.min || 5);
+  var label = el.dataset.label || '剩餘時間';
+  var xl    = el.dataset.size === 'xl';
+  var R  = xl ? 114 : 78;
+  var SZ = xl ? 260 : 180;
+  var C  = 2*Math.PI*R;
+
+  el.innerHTML =
+    '<div class="ring" style="width:'+SZ+'px;height:'+SZ+'px">' +
+      '<svg width="'+SZ+'" height="'+SZ+'" viewBox="0 0 '+SZ+' '+SZ+'" style="transform:rotate(-90deg)">' +
+        '<circle class="bg" cx="'+SZ/2+'" cy="'+SZ/2+'" r="'+R+'"/>' +
+        '<circle class="fg" cx="'+SZ/2+'" cy="'+SZ/2+'" r="'+R+'" stroke-dasharray="'+C+'" stroke-dashoffset="0"/>' +
+      '</svg>' +
+      '<div class="face">' +
+        '<div class="num" style="font-size:'+(xl?64:38)+'px">'+String(mins).padStart(2,'0')+':00</div>' +
+        '<div class="cap">'+label+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="ctl">' +
+      '<button class="btn t-go">▶ 開始計時</button>' +
+      '<button class="btn t-rst">重設</button>' +
+    '</div>';
+
+  var st = { total: mins*60, left: mins*60, run: false };
+  var saved = tLoad(i);
+  if(saved){ st.left = Math.min(st.total, saved.left); st.run = !!saved.run && st.left > 0; }
+  el._t = st;
+
+  var num = $('.num', el), fg = $('.fg', el);
+  var go  = $('.t-go', el), rst = $('.t-rst', el);
+
+  function paint(){
+    var m = Math.floor(st.left/60), s = st.left%60;
+    num.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    fg.style.strokeDashoffset = C * (1 - st.left/st.total);
+    el.classList.toggle('done', st.left <= 0);
+    go.textContent = st.left <= 0 ? '時間到' : (st.run ? '❙❙ 暫停' : '▶ 開始計時');
+    go.classList.toggle('on', st.run);
+  }
+  st.paint = paint;
+
+  go.addEventListener('click', function(){
+    if(st.left <= 0) return;
+    st.run = !st.run; paint(); tSave(i, st);
+  });
+  rst.addEventListener('click', function(){
+    st.left = st.total; st.run = false; paint(); tSave(i, st);
+  });
+  setInterval(function(){
+    if(st.run && st.left > 0){
+      st.left--; paint();
+      if(st.left % 5 === 0 || st.left <= 0) tSave(i, st);
+      if(st.left <= 0) st.run = false;
+    }
+  }, 1000);
+  paint();
+});
+
+/* ─── 圖片／影片 fallback ───────────────────── */
+$$('.avatar img, .shot img, .rec video').forEach(function(m){
+  m.addEventListener('error', function(){ m.classList.add('dead'); });
+  if(m.tagName === 'IMG' && m.complete && !m.naturalWidth) m.classList.add('dead');
+  if(m.tagName === 'VIDEO') setTimeout(function(){ if(!m.videoWidth) m.classList.add('dead'); }, 2200);
+});
+
+/* ─── 播放器尺寸：跟著影片原始比例，不裁切 ──── */
+/* 預設框是 16:9，但錄的畫面常常不是 16:9（例如視窗錄影偏方），
+   硬套 16:9 會把上下切掉。讀到影片實際尺寸後改寫容器比例，
+   高度超過上限時改縮寬度，讓整支影片完整顯示。 */
+var REC_MAX_H = 500;                     /* 1280×720 舞台內，播放器高度上限 */
+function fitRec(v){
+  if(!v.videoWidth || !v.videoHeight) return;
+  var box = v.closest('.rec');
+  if(!box) return;
+  box.style.aspectRatio = v.videoWidth + '/' + v.videoHeight;
+  box.style.maxWidth = '';
+  var w = box.clientWidth;
+  if(!w) return;                         /* 這張還沒顯示，等 enter() 再算一次 */
+  if(w * v.videoHeight / v.videoWidth > REC_MAX_H){
+    box.style.maxWidth = Math.round(REC_MAX_H * v.videoWidth / v.videoHeight) + 'px';
+  }
+}
+$$('.rec video').forEach(function(v){
+  v.addEventListener('loadedmetadata', function(){ fitRec(v); });
+  fitRec(v);
+  /* 講師自己按暫停時記住，換頁回來不要又被自動播放蓋掉 */
+  v.addEventListener('pause', function(){ if(!v.ended) v.dataset.held = '1'; });
+  v.addEventListener('play',  function(){ delete v.dataset.held; });
+});
+
+/* 影片用瀏覽器內建播放器（controls），暫停／進度／音量／全螢幕都在上面。
+   播放中滑鼠不在影片上時 Chrome 會自動把控制列收起來，簡報畫面才乾淨。 */
+function recPlay(v){ var p = v.play(); if(p && p.catch) p.catch(function(){}); }
+
+/* ─── 對話模擬 ─────────────────────────────── */
+/* <template class="seq"> 每行格式：  C| 文字   或   U| 文字
+   同一個角色連續多行會合併成一則訊息；只寫 "C|" 代表空行。
+   內文可用 **粗體**、`程式碼`；以 "- " 開頭是選項，"-* " 是被選中的選項。 */
+function parseSeq(text){
+  var out = [], cur = null;
+  text.split('\n').forEach(function(raw){
+    var m = raw.match(/^\s*([CUcu])\|(.*)$/);
+    if(!m){
+      if(raw.trim() === '') return;
+      if(cur) cur.t.push(raw.trim());
+      return;
+    }
+    var role = m[1].toUpperCase() === 'U' ? 'u' : 'c';
+    var body = m[2].replace(/^ /, '');
+    if(!cur || cur.r !== role){ cur = { r: role, t: [] }; out.push(cur); }
+    cur.t.push(body);
+  });
+  return out.map(function(x){ return { r: x.r, t: x.t.join('\n') }; });
+}
+
+function esc(x){ return x.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function inlineFmt(s){
+  var out = '', re = /\*\*([^*]+)\*\*|`([^`]+)`/g, m, last = 0;
+  while((m = re.exec(s))){
+    out += esc(s.slice(last, m.index));
+    out += m[1] ? '<strong>'+esc(m[1])+'</strong>' : '<code>'+esc(m[2])+'</code>';
+    last = re.lastIndex;
+  }
+  return out + esc(s.slice(last));
+}
+
+var chatGen = 0;
+function runChat(root){
+  var tpl = $('template.seq', root);
+  if(!tpl) return;
+  var seq = parseSeq(tpl.content.textContent || '');
+  if(!seq.length) return;
+
+  var gen = ++chatGen;
+  var body = $('.chat-body', root), field = $('.field', root), send = $('.send', root);
+  body.innerHTML = ''; field.innerHTML = ''; send.classList.remove('hot');
+  var SPD = reduce ? 0 : 1;
+  function alive(){ return gen === chatGen; }
+
+  function bubble(role){
+    var w = D.createElement('div');
+    w.className = 'msg ' + (role === 'u' ? 'user' : 'claude');
+    w.innerHTML = (role === 'c' ? '<div class="av">C</div>' : '') + '<div class="bub"></div>';
+    body.appendChild(w);
+    body.scrollTop = body.scrollHeight;
+    return $('.bub', w);
+  }
+
+  async function typeField(text){
+    field.innerHTML = '<span class="txt"></span><span class="caret"></span>';
+    var t = $('.txt', field);
+    for(var i = 0; i < text.length; i++){
+      if(!alive()) return;
+      t.textContent = text.slice(0, i+1);
+      await sleep(36*SPD + Math.random()*26*SPD);
+    }
+    send.classList.add('hot');
+    await sleep(420*SPD);
+  }
+
+  async function claudeMsg(text, onAllPicked){
+    var bub = bubble('c');
+    bub.innerHTML = '<div class="think"><span></span><span></span><span></span></div>';
+    await sleep(760*SPD);
+    if(!alive()) return;
+    bub.innerHTML = '';
+
+    var lines = text.split('\n'), optWrap = null;
+    var totalPicks = 0, picked = 0;
+    for(var pi = 0; pi < lines.length; pi++) if(lines[pi].indexOf('-* ') === 0) totalPicks++;
+    for(var li = 0; li < lines.length; li++){
+      if(!alive()) return;
+      var raw = lines[li];
+
+      if(raw === ''){
+        var sp = D.createElement('div'); sp.className = 'ln sp'; bub.appendChild(sp);
+        optWrap = null; await sleep(120*SPD); continue;
+      }
+
+      if(raw.indexOf('- ') === 0 || raw.indexOf('-* ') === 0){
+        /* 先把整段連續的選項收齊 */
+        var group = [];
+        while(li < lines.length &&
+             (lines[li].indexOf('- ') === 0 || lines[li].indexOf('-* ') === 0)){
+          var isSel = lines[li].indexOf('-* ') === 0;
+          group.push({ sel: isSel, txt: lines[li].slice(isSel ? 3 : 2) });
+          li++;
+        }
+        li--;                                   /* for 迴圈還會再 ++ 一次 */
+
+        var wrap = D.createElement('div');
+        wrap.className = 'ln';
+        bub.appendChild(wrap);
+
+        /* 第一階段：所有選項先全部出現，都還沒勾 */
+        var chips = [];
+        for(var gi = 0; gi < group.length; gi++){
+          if(!alive()) return;
+          var ch = D.createElement('span');
+          ch.className = 'opt';
+          ch.innerHTML = '<span class="mk"></span>' + inlineFmt(group[gi].txt);
+          wrap.appendChild(ch);
+          chips.push(ch);
+          body.scrollTop = body.scrollHeight;
+          await sleep(170*SPD);
+        }
+
+        /* 第二階段：停一下，才開始打勾 */
+        await sleep(560*SPD);
+        for(var gj = 0; gj < group.length; gj++){
+          if(!group[gj].sel) continue;
+          if(!alive()) return;
+          chips[gj].classList.add('sel');
+          picked++;
+          if(onAllPicked && picked === totalPicks) onAllPicked();
+          await sleep(400*SPD);
+        }
+        optWrap = null;
+        continue;
+      }
+
+      /* 工具動作行「· 」與完成行「✓ 」：直接跳出，不逐字打 */
+      var isTool = raw.indexOf('· ') === 0, isOk = raw.indexOf('✓ ') === 0;
+      if(isTool || isOk){
+        optWrap = null;
+        var tl = D.createElement('div');
+        tl.className = 'ln ' + (isTool ? 'tool' : 'ok');
+        tl.innerHTML = inlineFmt(isTool ? raw.slice(2) : raw);
+        bub.appendChild(tl);
+        body.scrollTop = body.scrollHeight;
+        await sleep(330*SPD);
+        continue;
+      }
+
+      optWrap = null;
+      var quote = raw.indexOf('> ') === 0;
+      if(quote) raw = raw.slice(2);
+      var ln = D.createElement('div');
+      ln.className = 'ln' + (quote ? ' quote' : '');
+      bub.appendChild(ln);
+      var plain = raw.replace(/\*\*/g, '').replace(/`/g, '');
+      for(var ci = 0; ci < plain.length; ci++){
+        if(!alive()) return;
+        ln.textContent = plain.slice(0, ci+1);
+        body.scrollTop = body.scrollHeight;
+        await sleep(16*SPD);
+      }
+      ln.innerHTML = inlineFmt(raw);
+      body.scrollTop = body.scrollHeight;
+      await sleep(150*SPD);
+    }
+  }
+
+  (async function(){
+    await sleep(520*SPD);
+    for(var i = 0; i < seq.length; i++){
+      if(!alive()) return;
+      var it = seq[i];
+      if(it.r === 'u'){
+        await typeField(it.t);
+        if(!alive()) return;
+        field.innerHTML = ''; send.classList.remove('hot');
+        bubble('u').textContent = it.t;
+        body.scrollTop = body.scrollHeight;
+        await sleep(430*SPD);
+      } else {
+        var nxt = seq[i+1], popped = false;
+        await claudeMsg(it.t, (nxt && nxt.r === 'u') ? function(){
+          if(popped || !alive()) return;
+          popped = true;
+          var pb = bubble('u');
+          pb.parentNode.classList.add('pop');
+          pb.textContent = nxt.t;
+          body.scrollTop = body.scrollHeight;
+        } : null);
+        if(!alive()) return;
+        if(popped){ i++; await sleep(420*SPD); }
+        else await sleep(320*SPD);
+      }
+    }
+    if(alive()) field.innerHTML = '';
+  })();
+}
+
+$$('.chat').forEach(function(c){
+  if(!$('template.seq', c)) return;
+  var b = D.createElement('button');
+  b.className = 'replay'; b.type = 'button'; b.textContent = '↻ 重播';
+  b.addEventListener('click', function(){ runChat(c); });
+  c.parentNode.appendChild(b);
+});
+
+/* ─── 終端機模擬 ───────────────────────────── */
+/* <template class="lines"> 每行格式： 樣式| 內容
+   樣式：p（提示詞）/ cmt（步驟）/ tool（動作）/ ok / link / sp（空行） */
+function runTerm(el){
+  var tpl = $('template.lines', el);
+  if(!tpl) return;
+  var src = tpl.innerHTML.split('\n');
+  el.innerHTML = '';
+  el.appendChild(tpl);
+
+  var nodes = [];
+  src.forEach(function(raw){
+    var m = raw.match(/^\s*([a-z]+)\|(.*)$/);
+    if(!m) return;
+    var d = D.createElement('div');
+    if(m[1] === 'sp'){ d.className = 'l'; d.style.height = '16px'; d.innerHTML = '&nbsp;'; }
+    else { d.className = 'l ' + m[1]; d.innerHTML = m[2]; }
+    el.appendChild(d);
+    nodes.push(d);
+  });
+
+  var i = 0;
+  clearInterval(el._iv);
+  if(reduce){ nodes.forEach(function(n){ n.classList.add('on'); }); return; }
+  el._iv = setInterval(function(){
+    if(i >= nodes.length){ clearInterval(el._iv); return; }
+    nodes[i++].classList.add('on');
+  }, 340);
+}
+
+/* ─── 導覽 ─────────────────────────────────── */
+var slides = $$('.slide');
+var cur = 0, step = 0, moving = false;
+var ebSec = $('#ebSec'), pnCur = $('#pnCur'), pnAll = $('#pnAll'), rail = $('#rail');
+
+pnAll.textContent = String(slides.length).padStart(2,'0');
+slides.forEach(function(s){ s.hidden = true; });
+
+function maxStep(s){ return +(s.dataset.steps || 0); }
+
+function applySteps(s){
+  $$('[data-step]', s).forEach(function(el){
+    var n = +el.dataset.step;
+    var on = el.dataset.only === '1' ? (n === step) : (n <= step && n > 0);
+    el.classList.toggle('on', on);
+    if(el.dataset.only === '1') el.style.pointerEvents = on ? 'auto' : 'none';
+  });
+}
+
+/* Claude Desktop 聚光燈：投影片標 data-spot="元素 class" */
+function applySpot(s){
+  var win = $('.cd', s), spot = $('.spot', s);
+  if(!win || !spot) return;
+  var sel = s.dataset.spot;
+  if(!sel){ spot.classList.remove('on'); return; }
+  var t = $('.' + sel, win);
+  if(!t){ spot.classList.remove('on'); return; }
+  if(t.classList.contains('cd-item')){
+    $$('.cd-item', win).forEach(function(el){ el.classList.toggle('act', el === t); });
+  }
+  var wr = win.getBoundingClientRect(), tr = t.getBoundingClientRect();
+  var k  = wr.width / win.offsetWidth || 1;
+  var pad = 7;
+  spot.style.left   = ((tr.left - wr.left)/k - pad) + 'px';
+  spot.style.top    = ((tr.top  - wr.top )/k - pad) + 'px';
+  spot.style.width  = (tr.width/k  + pad*2) + 'px';
+  spot.style.height = (tr.height/k + pad*2) + 'px';
+  spot.classList.add('on');
+}
+
+function enter(s){
+  ebSec.textContent = s.dataset.sec || UNAME;
+  pnCur.textContent = String(cur+1).padStart(2,'0');
+  rail.style.width = (slides.length > 1 ? cur/(slides.length-1)*100 : 100) + '%';
+
+  applySteps(s);
+  if(s.dataset.spot !== undefined) setTimeout(function(){ applySpot(s); }, 60);
+
+  var chat = $('.chat', s);
+  if(chat && $('template.seq', chat)) setTimeout(function(){ runChat(chat); }, 380);
+
+  var term = $('.term', s);
+  if(term && $('template.lines', term)) setTimeout(function(){ runTerm(term); }, 460);
+
+  $$('.rec video', s).forEach(fitRec);
+  $$('video', s).forEach(function(v){ if(!v.dataset.held) recPlay(v); });
+}
+
+function show(n, atEnd){
+  if(moving) return;
+  if(n < 0){ if(PREV) leave(PREV + '#end'); return; }
+  if(n >= slides.length){ if(NEXT) leave(NEXT); return; }
+  moving = true;
+  chatGen++;
+  var old = slides[cur];
+  old.classList.remove('in'); old.classList.add('out');
+  setTimeout(function(){
+    old.classList.remove('out'); old.hidden = true;
+    cur = n;
+    var s = slides[cur];
+    step = atEnd ? maxStep(s) : 0;
+    s.hidden = false;
+    void s.offsetWidth;
+    s.classList.add('in');
+    enter(s);
+    moving = false;
+  }, reduce ? 0 : 230);
+}
+
+function leave(href){
+  moving = true;
+  stage.classList.add('leaving');
+  setTimeout(function(){ W.location.href = href; }, reduce ? 0 : 260);
+}
+
+function next(){
+  var s = slides[cur];
+  if(step < maxStep(s)){ step++; applySteps(s); if(s.dataset.spot !== undefined) applySpot(s); return; }
+  show(cur+1);
+}
+function prev(){
+  var s = slides[cur];
+  if(step > 0){ step--; applySteps(s); if(s.dataset.spot !== undefined) applySpot(s); return; }
+  show(cur-1, true);
+}
+
+/* 回目錄。單檔版（dist）把目錄併在同一份 document 裡，data-home 會是 "#toc"，
+   這時直接同頁切換投影片；換頁會讓瀏覽器結束全螢幕，所以能不換就不換。 */
+function goHome(){
+  if(HOME.charAt(0) === '#'){
+    var i = slides.indexOf($(HOME));
+    if(i >= 0){ if(i !== cur) show(i); return; }
+  }
+  leave(HOME);
+}
+
+function toggleFull(){
+  if(D.fullscreenElement) D.exitFullscreen();
+  else if(D.documentElement.requestFullscreen) D.documentElement.requestFullscreen();
+}
+function replayCurrent(){
+  var s = slides[cur];
+  var c = $('.chat', s); if(c && $('template.seq', c)) runChat(c);
+  var t = $('.term', s); if(t && $('template.lines', t)) runTerm(t);
+}
+
+/* 按完就把焦點移開，否則之後按空白鍵會再次觸發同一顆按鈕（等於跳兩步） */
+function hit(fn){
+  return function(e){ if(e.currentTarget.blur) e.currentTarget.blur(); fn(); };
+}
+$('#btnNext').addEventListener('click', hit(next));
+$('#btnPrev').addEventListener('click', hit(prev));
+
+/* 底下那排說明也是按鈕，滑鼠可以直接點 */
+var ACTS = { full: toggleFull, home: goHome };
+
+/* 單檔版目錄的單元連結（build.mjs 會把 href 換成 data-goto="全域索引"） */
+stage.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('[data-goto]');
+  if(!a) return;
+  e.preventDefault();
+  var i = parseInt(a.dataset.goto, 10);
+  if(!isNaN(i) && i !== cur) show(i);
+});
+$('#help').addEventListener('click', function(e){
+  var b = e.target.closest('button[data-act]');
+  if(!b) return;
+  b.blur();
+  ACTS[b.dataset.act]();
+});
+
+D.addEventListener('keydown', function(e){
+  if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  var k = e.key;
+  if(k === 'ArrowRight' || k === 'PageDown'){ e.preventDefault(); next(); }
+  else if(k === 'ArrowLeft' || k === 'PageUp'){ e.preventDefault(); prev(); }
+  else if(k === 'Home'){ e.preventDefault(); show(0); }
+  else if(k === 'End'){ e.preventDefault(); show(slides.length-1, true); }
+  else if(k === 'Tab'){ e.preventDefault(); toggleFull(); }
+  else if(k === ' '){ e.preventDefault(); goHome(); }
+  else if(k === 'r' || k === 'R'){ e.preventDefault(); replayCurrent(); }
+});
+
+/* 首張（從上一單元倒退進來時直接落在最後一張） */
+var startAt = (W.location.hash === '#end') ? slides.length-1 : 0;
+cur = startAt;
+step = (W.location.hash === '#end') ? maxStep(slides[cur]) : 0;
+slides[cur].hidden = false;
+void slides[cur].offsetWidth;
+slides[cur].classList.add('in');
+enter(slides[cur]);
+
+})();
+
+/* ═══════════════════════════════════════════════
+   QR 產生器（Byte 模式、EC level M、版本 1–10）
+   用法：<div class="qr" data-qr="https://…"></div>
+   data-qr 留空會顯示佔位框。
+   ═══════════════════════════════════════════════ */
+(function(){
+'use strict';
+var D = document;
+
+var EXP = new Array(512), LOG = new Array(256);
+(function(){ var x = 1;
+  for(var i = 0; i < 255; i++){ EXP[i] = x; LOG[x] = i; x <<= 1; if(x & 0x100) x ^= 0x11D; }
+  for(var j = 255; j < 512; j++) EXP[j] = EXP[j-255];
+})();
+function mul(a, b){ return (a === 0 || b === 0) ? 0 : EXP[LOG[a] + LOG[b]]; }
+
+function rsGen(n){
+  var g = [1];
+  for(var i = 0; i < n; i++){
+    var ng = new Array(g.length + 1).fill(0);
+    for(var j = 0; j < g.length; j++){ ng[j] ^= g[j]; ng[j+1] ^= mul(g[j], EXP[i]); }
+    g = ng;
+  }
+  return g;
+}
+function rsEnc(data, n){
+  var g = rsGen(n), res = new Array(n).fill(0);
+  for(var i = 0; i < data.length; i++){
+    var f = data[i] ^ res[0];
+    res.shift(); res.push(0);
+    if(f !== 0) for(var j = 0; j < n; j++) res[j] ^= mul(g[j+1], f);
+  }
+  return res;
+}
+
+/* [EC碼數, 群組1區塊數, 群組1資料數, 群組2區塊數, 群組2資料數] */
+var ECB = {
+  1:[10,1,16], 2:[16,1,28], 3:[26,1,44], 4:[18,2,32], 5:[24,2,43],
+  6:[16,4,27], 7:[18,4,31], 8:[22,2,38,2,39], 9:[22,3,36,2,37], 10:[26,4,43,1,44]
+};
+var ALIGN = {
+  1:[], 2:[6,18], 3:[6,22], 4:[6,26], 5:[6,30],
+  6:[6,34], 7:[6,22,38], 8:[6,24,42], 9:[6,26,46], 10:[6,28,50]
+};
+
+function utf8(str){
+  var s = unescape(encodeURIComponent(str)), out = [];
+  for(var i = 0; i < s.length; i++) out.push(s.charCodeAt(i));
+  return out;
+}
+function bitLen(x){ var n = 0; while(x){ n++; x >>>= 1; } return n; }
+function bch(data, gen, len){
+  var d = data;
+  while(bitLen(d) >= len) d ^= gen << (bitLen(d) - len);
+  return d;
+}
+
+function make(text){
+  var bytes = utf8(text), v, ecb, dataCap, cc;
+  for(v = 1; v <= 10; v++){
+    ecb = ECB[v];
+    dataCap = ecb[1]*ecb[2] + (ecb[3] ? ecb[3]*ecb[4] : 0);
+    cc = v < 10 ? 8 : 16;
+    if(4 + cc + 8*bytes.length <= dataCap*8) break;
+  }
+  if(v > 10) throw new Error('QR: 內容太長（超過版本 10 容量）');
+
+  var bits = [];
+  function put(val, len){ for(var i = len-1; i >= 0; i--) bits.push((val >>> i) & 1); }
+  put(4, 4); put(bytes.length, cc);
+  for(var i = 0; i < bytes.length; i++) put(bytes[i], 8);
+  var cap = dataCap*8;
+  for(i = 0; i < 4 && bits.length < cap; i++) bits.push(0);
+  while(bits.length % 8) bits.push(0);
+  var pad = [0xEC, 0x11], pi = 0;
+  while(bits.length < cap) put(pad[pi++ % 2], 8);
+
+  var dcw = [];
+  for(i = 0; i < bits.length; i += 8){
+    var b = 0;
+    for(var j = 0; j < 8; j++) b = (b << 1) | bits[i+j];
+    dcw.push(b);
+  }
+
+  var ecLen = ecb[0], blocks = [], off = 0;
+  function addBlocks(count, size){
+    for(var k = 0; k < count; k++){
+      var d = dcw.slice(off, off + size); off += size;
+      blocks.push({ d: d, e: rsEnc(d, ecLen) });
+    }
+  }
+  addBlocks(ecb[1], ecb[2]);
+  if(ecb[3]) addBlocks(ecb[3], ecb[4]);
+
+  var out = [], maxD = 0;
+  blocks.forEach(function(b){ if(b.d.length > maxD) maxD = b.d.length; });
+  for(i = 0; i < maxD; i++) blocks.forEach(function(b){ if(i < b.d.length) out.push(b.d[i]); });
+  for(i = 0; i < ecLen; i++) blocks.forEach(function(b){ out.push(b.e[i]); });
+
+  var n = 17 + 4*v, m = [], res = [];
+  for(i = 0; i < n; i++){ m.push(new Array(n).fill(0)); res.push(new Array(n).fill(false)); }
+  function setF(r, c, val){ if(r < 0 || c < 0 || r >= n || c >= n) return; m[r][c] = val; res[r][c] = true; }
+
+  function finder(r, c){
+    for(var i = -1; i <= 7; i++) for(var j = -1; j <= 7; j++){
+      var on = (i >= 0 && i <= 6 && (j === 0 || j === 6)) ||
+               (j >= 0 && j <= 6 && (i === 0 || i === 6)) ||
+               (i >= 2 && i <= 4 && j >= 2 && j <= 4);
+      setF(r+i, c+j, on ? 1 : 0);
+    }
+  }
+  finder(0, 0); finder(0, n-7); finder(n-7, 0);
+  for(i = 8; i < n-8; i++){ setF(6, i, i % 2 === 0 ? 1 : 0); setF(i, 6, i % 2 === 0 ? 1 : 0); }
+
+  var al = ALIGN[v];
+  for(i = 0; i < al.length; i++) for(var jj = 0; jj < al.length; jj++){
+    var ar = al[i], ac = al[jj];
+    if((ar <= 8 && ac <= 8) || (ar <= 8 && ac >= n-9) || (ar >= n-9 && ac <= 8)) continue;
+    for(var dr = -2; dr <= 2; dr++) for(var dc = -2; dc <= 2; dc++)
+      setF(ar+dr, ac+dc, Math.max(Math.abs(dr), Math.abs(dc)) !== 1 ? 1 : 0);
+  }
+
+  for(i = 0; i <= 8; i++){ if(i !== 6) setF(8, i, 0); }
+  for(i = 0; i <= 8; i++){ if(i !== 6) setF(i, 8, 0); }
+  for(i = n-8; i < n; i++) setF(8, i, 0);
+  for(i = n-7; i < n; i++) setF(i, 8, 0);
+  setF(n-8, 8, 1);
+
+  if(v >= 7){
+    var vi = (v << 12) | bch(v << 12, 0x1F25, 13);
+    for(i = 0; i < 18; i++){
+      var vb = (vi >>> i) & 1;
+      setF(Math.floor(i/3), n-11 + i%3, vb);
+      setF(n-11 + i%3, Math.floor(i/3), vb);
+    }
+  }
+
+  var di = 0, up = true;
+  for(var col = n-1; col >= 1; col -= 2){
+    if(col === 6) col = 5;
+    for(i = 0; i < n; i++){
+      var row = up ? n-1-i : i;
+      for(var k = 0; k < 2; k++){
+        var c2 = col - k;
+        if(!res[row][c2]){
+          m[row][c2] = di < out.length*8 ? ((out[di >> 3] >>> (7 - (di & 7))) & 1) : 0;
+          di++;
+        }
+      }
+    }
+    up = !up;
+  }
+
+  function maskAt(k, r, c){
+    switch(k){
+      case 0: return (r+c) % 2 === 0;
+      case 1: return r % 2 === 0;
+      case 2: return c % 3 === 0;
+      case 3: return (r+c) % 3 === 0;
+      case 4: return (Math.floor(r/2) + Math.floor(c/3)) % 2 === 0;
+      case 5: return (r*c) % 2 + (r*c) % 3 === 0;
+      case 6: return ((r*c) % 2 + (r*c) % 3) % 2 === 0;
+      default: return ((r+c) % 2 + (r*c) % 3) % 2 === 0;
+    }
+  }
+  function putFormat(mm, mask){
+    var fd = mask;                                  /* EC level M = 00 */
+    var fmt = (((fd << 10) | bch(fd << 10, 0x537, 11)) ^ 0x5412);
+    for(var i = 0; i < 15; i++){
+      var bit = (fmt >>> (14 - i)) & 1;   /* 高位在前 */
+      if(i < 6) mm[8][i] = bit;
+      else if(i === 6) mm[8][7] = bit;
+      else if(i === 7) mm[8][8] = bit;
+      else if(i === 8) mm[7][8] = bit;
+      else mm[14-i][8] = bit;
+      if(i < 7) mm[n-1-i][8] = bit;      /* 第二份：垂直 7 格 */
+      else mm[8][n-15+i] = bit;          /* 第二份：水平 8 格 */
+    }
+    mm[n-8][8] = 1;
+  }
+  function penalty(mm){
+    var p = 0, i, j, run, dark = 0;
+    for(i = 0; i < n; i++){
+      run = 1;
+      for(j = 1; j < n; j++){
+        if(mm[i][j] === mm[i][j-1]) run++;
+        else { if(run >= 5) p += 3 + run - 5; run = 1; }
+      }
+      if(run >= 5) p += 3 + run - 5;
+      run = 1;
+      for(j = 1; j < n; j++){
+        if(mm[j][i] === mm[j-1][i]) run++;
+        else { if(run >= 5) p += 3 + run - 5; run = 1; }
+      }
+      if(run >= 5) p += 3 + run - 5;
+    }
+    for(i = 0; i < n-1; i++) for(j = 0; j < n-1; j++){
+      var s = mm[i][j] + mm[i][j+1] + mm[i+1][j] + mm[i+1][j+1];
+      if(s === 0 || s === 4) p += 3;
+    }
+    var pat = [1,0,1,1,1,0,1,0,0,0,0], rev = [0,0,0,0,1,0,1,1,1,0,1];
+    for(i = 0; i < n; i++) for(j = 0; j <= n-11; j++){
+      var hf = true, hr = true, vf = true, vr = true;
+      for(var t = 0; t < 11; t++){
+        if(mm[i][j+t] !== pat[t]) hf = false;
+        if(mm[i][j+t] !== rev[t]) hr = false;
+        if(mm[j+t][i] !== pat[t]) vf = false;
+        if(mm[j+t][i] !== rev[t]) vr = false;
+      }
+      if(hf) p += 40;
+      if(hr) p += 40;
+      if(vf) p += 40;
+      if(vr) p += 40;
+    }
+    for(i = 0; i < n; i++) for(j = 0; j < n; j++) dark += mm[i][j];
+    p += Math.floor(Math.abs(dark*100/(n*n) - 50) / 5) * 10;
+    return p;
+  }
+
+  var best = null, bestP = Infinity;
+  for(var mk = 0; mk < 8; mk++){
+    var mm = m.map(function(row){ return row.slice(); });
+    for(i = 0; i < n; i++) for(var jc = 0; jc < n; jc++)
+      if(!res[i][jc] && maskAt(mk, i, jc)) mm[i][jc] ^= 1;
+    putFormat(mm, mk);
+    var pv = penalty(mm);
+    if(pv < bestP){ bestP = pv; best = mm; }
+  }
+  return best;
+}
+
+function svg(mat, fg, bg, quiet){
+  var n = mat.length, q = quiet == null ? 2 : quiet, size = n + 2*q, d = '';
+  for(var r = 0; r < n; r++) for(var c = 0; c < n; c++)
+    if(mat[r][c]) d += 'M' + (c+q) + ' ' + (r+q) + 'h1v1h-1z';
+  return '<svg viewBox="0 0 ' + size + ' ' + size + '" width="100%" height="100%" ' +
+         'shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">' +
+         '<rect width="' + size + '" height="' + size + '" fill="' + (bg || '#F2F3EF') + '"/>' +
+         '<path d="' + d + '" fill="' + (fg || '#0B1114') + '"/></svg>';
+}
+
+window.QR = { make: make, svg: svg };
+
+/* 頁面上的 .qr 元素 */
+Array.prototype.forEach.call(D.querySelectorAll('.qr'), function(el){
+  var url = (el.dataset.qr || '').trim();
+  if(!url){
+    el.classList.add('empty');
+    el.innerHTML = '<span>填入連結<br><code>data-qr="…"</code></span>';
+    return;
+  }
+  try { el.innerHTML = svg(make(url), el.dataset.fg, el.dataset.bg); }
+  catch(e){ el.classList.add('empty'); el.innerHTML = '<span>' + e.message + '</span>'; }
+});
+
+})();
+</script>
+</body>
+</html>

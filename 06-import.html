@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNIT 06 一萬篇搬進來｜從停權到 Discord</title>
+<link rel="stylesheet" href="assets/deck.css">
+</head>
+<body data-unit="06" data-unit-name="一萬篇搬進來" data-prev="05-theme.html" data-next="07-deploy.html">
+<div id="viewport"><div id="stage">
+
+
+<!-- ── 章節首頁（深藍） ───────────────────── -->
+<section class="slide sec bd" data-sec="一萬篇搬進來">
+  <div class="ghostno">05</div>
+  <div class="secno r">CHAPTER 05</div>
+  <h1 class="r mega" style="--d:.12s">一萬篇<br>搬進來</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">還有兩個一定會踩到的坑。</p>
+</section>
+
+
+<!-- ── 匯入 ───────────────────────────────── -->
+<section class="slide" data-sec="匯入">
+  <div class="kicker b r">視覺細修完之後</div>
+  <h1 class="r h1s" style="--d:.08s; margin-bottom:44px">請它讀 8 個 XML，<br>自己搬進去。</h1>
+  <div class="stats r" style="--d:.2s">
+    <div><div class="n b">8</div><div class="u">個備份檔</div></div>
+    <div><div class="n b">10,044</div><div class="u">篇文章</div></div>
+    <div><div class="n b">1:1</div><div class="u">網址・分類・標籤照舊</div></div>
+  </div>
+</section>
+
+
+<!-- ── 坑 01 ──────────────────────────────── -->
+<section class="slide" data-sec="坑 01 · ?m=1">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">01</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">那個 <span class="hl">?m=1</span></h1>
+      <p class="lead r" style="--d:.2s">Blogger 拿它當手機版參數；<br>WordPress 拿它當<b>彙整月份篩選</b>。</p>
+      <p class="lead r" style="--d:.28s">直接帶進來，<b>會變成一整片 404。</b></p>
+    </div>
+    <div class="r" style="--d:.34s">
+      <div class="code">
+        <span class="c">舊網址（Google 上還有幾萬筆）</span><br>
+        /2019/05/post.html<span class="k">?m=1</span><br><br>
+        <span class="c">↓ 301</span><br><br>
+        <span class="c">新網址</span><br>
+        <span class="w">/2019/05/post.html</span>
+      </div>
+      <p class="note" style="margin-top:18px">請 AI 針對這個參數另外做一條轉址規則。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 坑 02 ──────────────────────────────── -->
+<section class="slide" data-sec="坑 02 · 區塊註解">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g20">
+      <div class="bignum r ghost" style="font-size:84px">02</div>
+      <h1 class="r h1s" style="--d:.1s; font-size:46px">HTML 區塊<br>要補註解標記</h1>
+      <p class="lead r" style="--d:.2s">Blogger 的內容是純 HTML，<br>少了區塊編輯器的註解，<br><b>後台就打不開那篇文章。</b></p>
+    </div>
+    <div class="r" style="--d:.34s">
+      <div class="code dark">
+        <span class="c">&lt;!-- wp:html --&gt;</span><br>
+        <span class="w">&lt;div class="post"&gt;…&lt;/div&gt;</span><br>
+        <span class="c">&lt;!-- /wp:html --&gt;</span>
+      </div>
+      <p class="note" style="margin-top:18px">轉換的時候就要一起處理，一萬篇不會想再跑第二次。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 本機驗收 ───────────────────────────── -->
+<section class="slide" data-sec="本機驗收" data-steps="3">
+  <div class="kicker b r">推上線之前，在本機先看過</div>
+  <div class="steps" style="margin-top:8px">
+    <div class="it b step" data-step="1"><div class="no">01</div><div><div class="tx">每一種版型都開一遍。</div></div></div>
+    <div class="it b step" data-step="2"><div class="no">02</div><div><div class="tx">文章總數對得起來。</div></div></div>
+    <div class="it b step" data-step="3"><div class="no">03</div><div><div class="tx">舊網址點下去要到得了新文章。</div></div></div>
+  </div>
+</section>
+
+
+</div></div>
+<script src="assets/deck.js"></script>
+</body>
+</html>

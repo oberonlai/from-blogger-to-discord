@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNIT 05 蓋一個新家｜從停權到 Discord</title>
+<link rel="stylesheet" href="assets/deck.css">
+</head>
+<body data-unit="05" data-unit-name="蓋一個新家" data-prev="04-design.html" data-next="06-import.html">
+<div id="viewport"><div id="stage">
+
+
+<!-- ── 章節首頁（深橘） ───────────────────── -->
+<section class="slide sec od" data-sec="蓋一個新家">
+  <div class="ghostno">04</div>
+  <div class="secno r">CHAPTER 04</div>
+  <h1 class="r mega" style="--d:.12s">蓋一個新家</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">佈景主題與本機開發環境。</p>
+</section>
+
+
+<!-- ── 不用現成主題 ───────────────────────── -->
+<section class="slide" data-sec="佈景主題的選擇">
+  <div class="kicker r">不挑現成的佈景主題</div>
+  <h1 class="r h1s" style="--d:.08s">用自己整理過的<br>那一套來長。</h1>
+  <div class="r" style="--d:.2s; margin-top:34px">
+    <span class="tag o">everything-wp</span>
+  </div>
+  <p class="note r" style="--d:.28s; margin-top:18px">github.com/oberonlai/everything-wp</p>
+</section>
+
+
+<!-- ── 為什麼是區塊佈景主題 ───────────────── -->
+<section class="slide" data-sec="為什麼用區塊主題">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">而且是區塊佈景主題</div>
+      <h1 class="r h1s" style="--d:.1s">因為之後<br>要讓業主自己改。</h1>
+      <p class="lead r" style="--d:.2s">版型交出去以後，<br><b>他在後台就能動內容，不用回來找我。</b></p>
+    </div>
+    <div class="r" style="--d:.3s; display:grid; place-items:center">
+      <svg viewBox="0 0 240 200" style="width:260px" aria-label="區塊組成的頁面">
+        <rect x="30" y="18" width="180" height="34" rx="4" fill="#21759B" opacity=".85"/>
+        <rect x="30" y="62" width="112" height="80" rx="4" fill="none" stroke="#21759B" stroke-width="3"/>
+        <rect x="152" y="62" width="58" height="38" rx="4" fill="none" stroke="#21759B" stroke-width="3"/>
+        <rect x="152" y="110" width="58" height="32" rx="4" fill="none" stroke="#21759B" stroke-width="3" stroke-dasharray="6 6"/>
+        <rect x="30" y="152" width="180" height="26" rx="4" fill="#E7E0D6"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── ValetPress ─────────────────────────── -->
+<section class="slide" data-sec="本機開發環境">
+  <div class="kicker b r">本機環境我用</div>
+  <h1 class="r mega" style="--d:.08s; font-size:76px">ValetPress</h1>
+  <div class="cols c-2 r" style="--d:.22s; margin-top:40px">
+    <p class="body">開機的時候 PHP、Nginx、MySQL <b>就已經在背景跑了</b>，不用每次重啟。</p>
+    <p class="body">不必每個站都養一個容器，<b>硬碟空間省很多。</b></p>
+  </div>
+  <p class="note r" style="--d:.32s; margin-top:26px">oberonlai.blog/valetpress-setup</p>
+</section>
+
+
+<!-- ── vp empty ───────────────────────────── -->
+<section class="slide" data-sec="10 秒一個站">
+  <div class="cols c-media" style="align-items:center">
+    <div class="term r" style="--d:.06s; min-height:300px">
+      <template class="lines">
+cmt| ● 開一個全新的 WordPress 本機站
+p| $ vp empty
+tool| 建立資料庫 <b>justgirl_local</b>
+tool| 下載並安裝 WordPress
+ok| ✔ https://justgirl.test 已就緒
+      </template>
+    </div>
+    <div class="stack g20">
+      <div class="kicker r" style="--d:.14s">一行指令</div>
+      <h1 class="r h1s" style="--d:.2s; font-size:48px">10 秒，<br>一個乾淨的站。</h1>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── init-theme ─────────────────────────── -->
+<section class="slide" data-sec="初始化主題">
+  <div class="kicker r">在 wp-content/themes 開一個空資料夾，然後</div>
+  <div class="term r" style="--d:.12s; min-height:296px">
+    <template class="lines">
+p| $ /everything-wp:init-theme
+tool| 建立 <b>theme.json</b>・<b>templates/</b>・<b>parts/</b>
+tool| 掛上 PHPCS・PHPStan・PHPUnit・i18n
+tool| 產生 GitHub Actions 與 build 腳本
+ok| ✔ 區塊佈景主題的骨架完成
+    </template>
+  </div>
+</section>
+
+
+<!-- ── 設計稿丟給 Claude Code ─────────────── -->
+<section class="slide" data-sec="把設計稿交出去">
+  <div class="kicker b r">Claude Design 右上角的 Share → 輸出提示詞</div>
+  <div class="quote b r" style="--d:.12s; max-width:920px">
+    <p>用這份設計，<br>做成 WordPress 區塊佈景主題。</p>
+  </div>
+  <p class="lead wide r" style="--d:.26s; margin-top:34px">貼進 Claude Code，<b>剩下的就是等它跑完。</b></p>
+</section>
+
+
+</div></div>
+<script src="assets/deck.js"></script>
+</body>
+</html>

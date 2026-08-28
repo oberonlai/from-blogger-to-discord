@@ -1,0 +1,450 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap");
+
+/* ═══════════════════════════════════════════════
+   從停權到 Discord — 0829 桃園小聚簡報樣式
+   舞台固定 1280 × 720，由 deck.js 等比縮放
+   淺色極簡：暖白底 + Blogger 橘 + WordPress 藍
+   章節首頁（.slide.sec）整頁滿版色塊，與內容頁完全分開
+   ═══════════════════════════════════════════════ */
+
+:root{
+  /* 紙面 */
+  --paper:   #FBF9F6;
+  --paper-2: #F3EFE9;
+  --paper-3: #E7E0D6;
+
+  /* 文字 */
+  --ink:     #171310;   /* 主文 */
+  --mute:    #56504A;   /* 次文 */
+  --faint:   #8B837B;   /* 標註 */
+
+  /* 兩個品牌色 */
+  --blogger:      #F57C00;
+  --blogger-deep: #B35C00;   /* 淺底上的文字用這支才夠對比 */
+  --blogger-sk:   rgba(245,124,0,.12);
+  --wp:           #21759B;
+  --wp-deep:      #16536E;
+  --wp-sk:        rgba(33,117,155,.12);
+
+  --line:   rgba(23,19,16,.15);
+  --line-2: rgba(23,19,16,.07);
+
+  --serif: "Noto Serif TC", "Songti TC", serif;
+  --sans:  "Noto Sans TC", -apple-system, "PingFang TC", sans-serif;
+  --mono:  "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+
+  /* 字級（1280×720 舞台內的絕對值，一律偏大） */
+  --fs-mega: 88px;
+  --fs-h1:   64px;
+  --fs-h2:   42px;
+  --fs-lead: 29px;
+  --fs-body: 24px;
+  --fs-note: 17px;
+  --fs-eye:  15px;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+#viewport{
+  position:fixed; inset:0; overflow:hidden;
+  background:
+    radial-gradient(110% 80% at 84% 4%, rgba(245,124,0,.07), transparent 60%),
+    radial-gradient(90% 70% at 4% 98%, rgba(33,117,155,.07), transparent 62%),
+    var(--paper);
+}
+#stage{
+  position:absolute; top:0; left:0;
+  width:1280px; height:720px;
+  transform-origin:top left;
+}
+#stage.leaving{opacity:0; transition:opacity .26s ease;}
+
+/* ── 儀表框 ───────────────────────────────── */
+.hull{position:absolute; inset:26px; border:1px solid var(--line-2); pointer-events:none; z-index:40; transition:opacity .4s ease;}
+.hull::before,.hull::after{content:""; position:absolute; width:10px; height:10px; border:1px solid var(--line);}
+.hull::before{left:-1px; top:-1px; border-right:0; border-bottom:0;}
+.hull::after{right:-1px; bottom:-1px; border-left:0; border-top:0;}
+
+.eyebrow-slot{
+  position:absolute; left:54px; top:17px; z-index:60;
+  background:var(--paper); padding:0 12px;
+  font-family:var(--mono); font-size:13px; font-weight:500;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--faint);
+  display:flex; align-items:center; gap:10px; white-space:nowrap;
+  transition:color .35s ease, background .35s ease;
+}
+.eyebrow-slot .u{color:var(--blogger-deep);}
+
+#pageno{
+  position:absolute; right:54px; bottom:17px; z-index:60;
+  background:var(--paper); padding:0 12px;
+  font-family:var(--mono); font-size:13px; letter-spacing:.14em; color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  transition:color .35s ease, background .35s ease;
+}
+#railwrap{position:absolute; left:26px; right:26px; bottom:26px; height:2px; z-index:59;}
+#rail{height:2px; width:0; background:linear-gradient(90deg,var(--blogger),var(--wp));
+  transition:width .5s cubic-bezier(.2,.7,.3,1);}
+
+#nav{position:absolute; right:54px; bottom:44px; z-index:60; display:flex; gap:6px;}
+#nav button{
+  width:32px;height:32px; background:transparent; border:1px solid var(--line);
+  color:var(--faint); border-radius:2px; cursor:pointer; display:grid; place-items:center; transition:.2s;
+}
+#nav button:hover{color:var(--blogger-deep); border-color:var(--blogger);}
+#nav button:focus-visible{outline:2px solid var(--blogger); outline-offset:2px;}
+#nav svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+#help{
+  position:absolute; left:54px; bottom:17px; z-index:60; background:var(--paper); padding:0 12px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; color:var(--faint);
+  display:flex; align-items:center; gap:20px;
+  transition:color .35s ease, background .35s ease;
+}
+#help button{
+  font:inherit; letter-spacing:inherit; color:inherit;
+  background:transparent; border:0; padding:3px 2px; margin:0;
+  cursor:pointer; white-space:nowrap; transition:color .18s ease;
+}
+#help button:hover{color:var(--blogger-deep);}
+#help kbd{color:var(--mute); font-family:var(--mono);}
+#help button:focus-visible{outline:1px solid var(--blogger); outline-offset:3px;}
+
+/* 章節首頁時，整套儀表框退到滿版色塊上，改成淺色 */
+#stage:has(.slide.sec.in) .hull{opacity:0;}
+#stage:has(.slide.sec.in) .eyebrow-slot,
+#stage:has(.slide.sec.in) #pageno,
+#stage:has(.slide.sec.in) #help{background:transparent; color:rgba(255,255,255,.62);}
+#stage:has(.slide.sec.in) .eyebrow-slot .u,
+#stage:has(.slide.sec.in) #help kbd{color:rgba(255,255,255,.86);}
+#stage:has(.slide.sec.in) #nav button{border-color:rgba(255,255,255,.3); color:rgba(255,255,255,.7);}
+#stage:has(.slide.sec.in) #rail{background:rgba(255,255,255,.85);}
+/* 章節首頁沒有 .hull 可以讓 #help／#pageno 用紙色底挖缺口，
+   進度條會直接橫穿文字，所以跟著外框一起淡出。 */
+#railwrap{transition:opacity .4s ease;}
+#stage:has(.slide.sec.in) #railwrap{opacity:0;}
+
+/* ── 投影片 ────────────────────────────────── */
+.slide{
+  position:absolute; inset:0; padding:96px 82px 84px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.slide[hidden]{display:none;}
+.slide.top{justify-content:flex-start;}
+
+/* 進場：淡入 + 微上移，用 --d 排序 */
+.r{
+  opacity:0; transform:translateY(20px);
+  transition:opacity .5s ease, transform .55s cubic-bezier(.2,.72,.3,1);
+  transition-delay:var(--d,0s);
+}
+.slide.in .r{opacity:1; transform:none;}
+.slide.out .r{opacity:0; transform:translateY(-10px); transition-duration:.2s; transition-delay:0s;}
+
+.step{opacity:0; transform:translateY(14px);
+  transition:opacity .45s ease, transform .45s cubic-bezier(.2,.72,.3,1);}
+.step.on{opacity:1; transform:none;}
+
+@media (prefers-reduced-motion:reduce){
+  .r,.step,#stage.leaving,.slide.sec::before{transition-duration:.01ms !important; transform:none !important;}
+}
+
+/* ── 章節首頁：滿版色塊，由下往上刷過來 ──────── */
+.slide.sec{--secbg:var(--blogger); color:#fff; justify-content:flex-end; padding:96px 82px 110px;}
+.slide.sec::before{
+  content:""; position:absolute; inset:0; background:var(--secbg);
+  transform:scaleY(0); transform-origin:bottom;
+  transition:transform .55s cubic-bezier(.7,0,.2,1);
+  z-index:0;
+}
+.slide.sec.in::before{transform:none;}
+.slide.sec > *{position:relative; z-index:1;}
+.slide.sec h1{color:#fff;}
+.slide.sec .lead{color:rgba(255,255,255,.82); max-width:36ch;}
+.slide.sec .kicker{color:rgba(255,255,255,.72);}
+.slide.sec .kicker::after{background:linear-gradient(90deg,rgba(255,255,255,.45),transparent);}
+.slide.sec .secno{
+  font-family:var(--mono); font-size:22px; font-weight:500; letter-spacing:.34em;
+  color:rgba(255,255,255,.62); margin-bottom:26px;
+}
+.sec.o{--secbg:var(--blogger);}
+.sec.b{--secbg:var(--wp);}
+.sec.k{--secbg:#171310;}
+.sec.od{--secbg:var(--blogger-deep);}
+.sec.bd{--secbg:var(--wp-deep);}
+
+/* 章節首頁角落的巨大數字浮水印 */
+.slide.sec .ghostno{
+  position:absolute; right:64px; bottom:32px; z-index:0;
+  font-family:var(--mono); font-weight:700; font-size:280px; line-height:.8;
+  color:rgba(255,255,255,.10); letter-spacing:-.04em; pointer-events:none;
+}
+
+/* ── 排版 ─────────────────────────────────── */
+h1,h2,h3{margin:0; font-family:var(--serif); font-weight:900; text-wrap:balance; letter-spacing:.005em;}
+h1{font-size:var(--fs-h1); line-height:1.26;}
+h2{font-size:var(--fs-h2); line-height:1.34;}
+p{margin:0; line-height:1.8;}
+
+.mega{font-size:var(--fs-mega); line-height:1.16;}
+.h1s{font-size:52px; line-height:1.28;}
+
+.kicker{
+  font-family:var(--mono); font-size:var(--fs-eye); font-weight:500;
+  letter-spacing:.24em; color:var(--blogger-deep);
+  display:flex; align-items:center; gap:14px; margin-bottom:28px;
+}
+.kicker::after{content:""; height:1px; flex:1; background:linear-gradient(90deg,var(--blogger-sk),transparent); max-width:220px;}
+.kicker.b{color:var(--wp-deep);}
+.kicker.b::after{background:linear-gradient(90deg,var(--wp-sk),transparent);}
+
+.lead{font-size:var(--fs-lead); line-height:1.8; color:var(--mute); font-weight:300; max-width:30ch;}
+.lead.wide{max-width:42ch;}
+.lead b{color:var(--ink); font-weight:500;}
+.body{font-size:var(--fs-body); line-height:1.85; color:var(--mute); font-weight:300;}
+.body b{color:var(--ink); font-weight:500;}
+.note{font-family:var(--mono); font-size:var(--fs-note); color:var(--faint); letter-spacing:.02em; line-height:1.8;}
+.hl{color:var(--blogger-deep);}
+.hl.b{color:var(--wp-deep);}
+.rule{height:1px; background:var(--line); margin:28px 0;}
+.rule.short{max-width:340px;}
+
+.cols{display:grid; gap:40px;}
+.c-2{grid-template-columns:1fr 1fr;}
+.c-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+.c-side{grid-template-columns:300px 1fr; gap:56px;}
+.c-wide{grid-template-columns:1.02fr .98fr; gap:52px;}
+.c-media{grid-template-columns:1.1fr .9fr; gap:48px;}
+
+.stack{display:flex; flex-direction:column;}
+.g8{gap:8px;} .g12{gap:12px;} .g16{gap:16px;} .g20{gap:20px;}
+.g24{gap:24px;} .g30{gap:30px;} .g40{gap:40px;}
+
+/* 大序號 */
+.bignum{
+  font-family:var(--mono); font-size:120px; font-weight:700; line-height:1;
+  color:var(--blogger); letter-spacing:-.03em;
+}
+.bignum.b{color:var(--wp);}
+.bignum.ghost{color:var(--paper-3);}
+
+/* 卡片 */
+.card{
+  background:#fff; border:1px solid var(--line-2);
+  border-radius:4px; padding:30px 30px 32px;
+  display:flex; flex-direction:column; gap:14px;
+  box-shadow:0 2px 0 rgba(23,19,16,.03);
+}
+.card .idx{font-family:var(--mono); font-size:13px; letter-spacing:.18em; color:var(--blogger-deep);}
+.card.b .idx{color:var(--wp-deep);}
+.card h3{font-size:27px; font-family:var(--sans); font-weight:700;}
+.card p{font-size:19px; color:var(--mute); line-height:1.8; font-weight:300;}
+
+/* 大數字 */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
+.stats > div{padding:8px 30px; border-left:1px solid var(--line-2);}
+.stats > div:first-child{border-left:0; padding-left:0;}
+.stats .n{font-family:var(--mono); font-size:80px; font-weight:700; line-height:1.1; letter-spacing:-.03em; color:var(--blogger);}
+.stats .n.b{color:var(--wp);} .stats .n.dead{color:var(--paper-3);}
+.stats .u{font-size:20px; color:var(--mute); margin-top:12px; font-weight:300;}
+
+/* 三欄比較 */
+.tri{display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line-2); background:#fff;}
+.tri > div{padding:32px 28px; border-left:1px solid var(--line-2); display:flex; flex-direction:column; gap:16px;}
+.tri > div:first-child{border-left:0;}
+.tri .ico{width:44px;height:44px; display:grid; place-items:center; border:1px solid var(--wp); border-radius:5px;}
+.tri .ico svg{width:22px;height:22px;stroke:var(--wp); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+.tri h3{font-family:var(--sans); font-size:23px; font-weight:700; color:var(--ink);}
+.tri p{font-size:18px; color:var(--mute); line-height:1.8; font-weight:300;}
+
+/* ── Gmail 收件匣模擬 ───────────────────────── */
+.gmail{
+  background:#fff; border:1px solid var(--line-2); border-radius:10px;
+  box-shadow:0 24px 60px -34px rgba(23,19,16,.45); overflow:hidden;
+  font-family:var(--sans);
+}
+.gm-head{padding:26px 34px 20px; display:flex; align-items:flex-start; gap:18px;}
+.gm-subj{font-size:36px; font-weight:500; line-height:1.35; color:var(--ink); letter-spacing:.005em;}
+.gm-tag{
+  flex:0 0 auto; margin-top:10px; font-size:17px; color:var(--mute);
+  background:var(--paper-2); border-radius:4px; padding:4px 12px; white-space:nowrap;
+}
+.gm-from{display:flex; align-items:center; gap:18px; padding:0 34px 22px;}
+.gm-av{width:56px;height:56px;border-radius:50%; background:var(--paper-3); flex:0 0 auto;
+  display:grid; place-items:center;}
+.gm-av svg{width:34px;height:34px;fill:#fff;}
+.gm-who{font-size:23px; font-weight:700;}
+.gm-who span{font-weight:400; color:var(--mute);}
+.gm-to{font-size:19px; color:var(--faint); margin-top:4px;}
+.gm-time{margin-left:auto; font-size:19px; color:var(--faint); white-space:nowrap;}
+.gm-body{padding:6px 34px 34px; font-size:23px; line-height:1.95; color:var(--ink); font-weight:300;
+  display:flex; flex-direction:column; gap:20px; border-top:1px solid var(--line-2); padding-top:26px;}
+.gm-body a, .gm-link{color:#1a73e8; text-decoration:underline; text-underline-offset:3px; border:0; word-break:break-all;}
+.gm-body b{font-weight:700;}
+.gm-body .mark{background:var(--blogger-sk); box-shadow:0 0 0 4px var(--blogger-sk); border-radius:2px;}
+
+/* ── 截圖佔位框 ─────────────────────────────── */
+.shot{position:relative; width:100%; background:var(--paper-2);
+  border:1px solid var(--line-2); border-radius:8px; overflow:hidden; aspect-ratio:16/10;}
+.shot img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; z-index:2; display:block;}
+.shot img.dead{display:none;}
+.shot .ph{position:absolute; inset:0; z-index:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:14px; text-align:center; padding:20px;
+  background:repeating-linear-gradient(135deg, rgba(23,19,16,.028) 0 12px, transparent 12px 24px);}
+.shot .ph .fn{font-family:var(--mono); font-size:15px; color:var(--mute); letter-spacing:.04em;}
+.shot .ph .hint{font-family:var(--mono); font-size:12.5px; color:var(--faint); letter-spacing:.14em;}
+.shot .ph .box{width:52px;height:52px;border:1.5px dashed var(--blogger); border-radius:6px;}
+.shot.tall{aspect-ratio:4/3;}
+
+/* ── 版型縮圖（wireframe） ──────────────────── */
+.wires{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+.wire{background:#fff; border:1px solid var(--line-2); border-radius:5px; padding:14px; aspect-ratio:3/4;
+  display:flex; flex-direction:column; gap:8px;}
+.wire i{display:block; background:var(--paper-3); border-radius:2px;}
+.wire i.hd{height:14px; background:var(--blogger); opacity:.75;}
+.wire i.t{height:9px;} .wire i.s{height:6px; width:70%;}
+.wire i.blk{flex:1; background:var(--paper-2);}
+.wirecap{font-family:var(--mono); font-size:15px; color:var(--mute); text-align:center; margin-top:12px; letter-spacing:.06em;}
+
+/* ── 流程圖 ─────────────────────────────────── */
+.pipe{display:flex; align-items:stretch; gap:0; width:100%;}
+.pipe .node{
+  flex:1; background:#fff; border:1px solid var(--line-2); border-radius:5px;
+  padding:22px 18px; display:flex; flex-direction:column; gap:10px; align-items:center; text-align:center;
+}
+.pipe .node .t{font-size:21px; font-weight:700; line-height:1.4;}
+.pipe .node .s{font-family:var(--mono); font-size:14px; color:var(--faint); letter-spacing:.04em;}
+.pipe .node.o{border-top:3px solid var(--blogger);}
+.pipe .node.b{border-top:3px solid var(--wp);}
+.pipe .arw{flex:0 0 46px; display:grid; place-items:center; color:var(--paper-3);}
+.pipe .arw svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* 直式步驟 */
+.steps{display:flex; flex-direction:column; gap:0;}
+.steps .it{display:flex; gap:26px; align-items:flex-start; padding:18px 0; border-bottom:1px solid var(--line-2);}
+.steps .it:last-child{border-bottom:0;}
+.steps .no{font-family:var(--mono); font-size:19px; font-weight:700; color:var(--blogger-deep); flex:0 0 42px; padding-top:6px;}
+.steps .it.b .no{color:var(--wp-deep);}
+.steps .tx{font-size:28px; font-weight:500; line-height:1.5;}
+.steps .sb{font-size:19px; color:var(--mute); font-weight:300; margin-top:6px; line-height:1.7;}
+
+/* ── 程式碼／終端機 ─────────────────────────── */
+.code{background:#fff; border:1px solid var(--line-2); border-radius:4px;
+  font-family:var(--mono); font-size:19px; line-height:2; padding:22px 26px; color:var(--mute);}
+.code .k{color:var(--blogger-deep);} .code .w{color:var(--ink);} .code .c{color:var(--faint);}
+.code .b{color:var(--wp-deep);}
+.code.dark{background:#171310; border-color:#171310; color:#CFC7BE;}
+.code.dark .k{color:#FFAF57;} .code.dark .w{color:#fff;} .code.dark .c{color:#8B837B;}
+
+.term{background:#141010; border:1px solid #141010; border-radius:8px;
+  font-family:var(--mono); font-size:20px; line-height:1.95;
+  padding:26px 30px; overflow:hidden; display:flex; flex-direction:column;
+  box-shadow:0 20px 50px -34px rgba(23,19,16,.6);}
+.term .l{opacity:0; transform:translateY(6px); transition:.32s; white-space:pre-wrap; color:#CFC7BE;}
+.term .l.on{opacity:1; transform:none;}
+.term .p{color:#FFAF57;}
+.term .tool{color:#9A928A;}
+.term .tool b{color:#F2EEE9; font-weight:400;}
+.term .cmt{color:#7E766E;}
+.term .ok{color:#6FBF8B;}
+.term .link{color:#6FAEDA; text-decoration:underline; text-underline-offset:4px;}
+
+/* ── Discord 模擬 ───────────────────────────── */
+.dc{background:#313338; border-radius:10px; overflow:hidden; display:flex;
+  box-shadow:0 24px 60px -34px rgba(23,19,16,.55); height:100%;}
+.dc-side{width:210px; background:#2B2D31; padding:16px 10px; display:flex; flex-direction:column; gap:4px; flex:0 0 auto;}
+.dc-srv{color:#F2F3F5; font-size:17px; font-weight:700; padding:4px 8px 14px; border-bottom:1px solid rgba(255,255,255,.06); margin-bottom:8px;}
+.dc-ch{display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:5px;
+  color:#949BA4; font-size:16px;}
+.dc-ch b{color:#6D7580; font-weight:400;}
+.dc-ch.act{background:#404249; color:#F2F3F5;}
+.dc-ch.act b{color:#F2F3F5;}
+.dc-ch .mcp{margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+  color:#0B1114; background:#5AC08C; border-radius:3px; padding:2px 6px;}
+.dc-main{flex:1; display:flex; flex-direction:column; min-width:0;}
+.dc-top{padding:14px 22px; border-bottom:1px solid rgba(255,255,255,.06); color:#F2F3F5; font-size:17px; font-weight:700;}
+.dc-body{flex:1; padding:20px 22px; display:flex; flex-direction:column; gap:18px; min-height:0;}
+.dc-msg{display:flex; gap:14px;}
+.dc-msg .av{width:40px;height:40px;border-radius:50%;flex:0 0 auto; display:grid; place-items:center;
+  font-family:var(--mono); font-size:15px; font-weight:700; color:#fff;}
+.dc-msg.me .av{background:var(--wp);}
+.dc-msg.bot .av{background:var(--blogger);color:#241200;}
+.dc-msg .nm{color:#F2F3F5; font-size:17px; font-weight:700; display:flex; align-items:center; gap:8px;}
+.dc-msg .nm .bt{font-family:var(--mono); font-size:10px; letter-spacing:.08em; background:#5865F2; color:#fff; border-radius:3px; padding:2px 5px;}
+.dc-msg .tx{color:#DBDEE1; font-size:20px; line-height:1.65; margin-top:5px; font-weight:300;}
+.dc-msg .tx code{font-family:var(--mono); font-size:17px; background:#232428; color:#FFAF57; padding:2px 7px; border-radius:3px;}
+.dc-msg .tx .ok{color:#5AC08C;}
+
+/* ── 瀏覽器視窗外框 ─────────────────────────── */
+.win{background:#fff; border:1px solid var(--line-2); border-radius:9px; overflow:hidden;
+  box-shadow:0 22px 56px -34px rgba(23,19,16,.45);}
+.win-bar{display:flex; align-items:center; gap:8px; padding:12px 16px; background:var(--paper-2); border-bottom:1px solid var(--line-2);}
+.win-bar i{width:10px;height:10px;border-radius:50%;background:var(--paper-3);}
+.win-bar .url{margin-left:12px; font-family:var(--mono); font-size:14px; color:var(--faint);
+  background:#fff; border:1px solid var(--line-2); border-radius:20px; padding:5px 16px; flex:1;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.win-body{padding:44px 34px; display:grid; place-items:center; gap:20px; text-align:center;}
+
+/* ── 標籤 ───────────────────────────────────── */
+.tag{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:15px;
+  letter-spacing:.08em; border:1px solid var(--line); border-radius:3px; padding:7px 14px; color:var(--mute);}
+.tag.o{border-color:var(--blogger); color:var(--blogger-deep); background:var(--blogger-sk);}
+.tag.b{border-color:var(--wp); color:var(--wp-deep); background:var(--wp-sk);}
+.quote{border-left:3px solid var(--blogger); background:var(--blogger-sk);
+  padding:22px 28px; border-radius:0 4px 4px 0;}
+.quote.b{border-left-color:var(--wp); background:var(--wp-sk);}
+.quote p{font-size:28px; line-height:1.7;}
+
+/* ── 目錄頁 ───────────────────────────────── */
+.toc{display:grid; grid-auto-flow:column; grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(5, auto); gap:0 56px;}
+.toc a{display:flex; align-items:baseline; gap:18px; padding:13px 10px;
+  border-bottom:1px solid var(--line-2); text-decoration:none; color:inherit; transition:.18s; border-radius:2px;}
+.toc a:hover{background:var(--blogger-sk); border-bottom-color:var(--blogger);}
+.toc a:focus-visible{outline:2px solid var(--blogger); outline-offset:-2px;}
+.toc .no{font-family:var(--mono); font-size:13px; letter-spacing:.08em; color:var(--blogger-deep); flex:0 0 auto; width:64px;}
+.toc .nm{font-size:22px; font-weight:500; line-height:1.4;}
+.toc .mi{margin-left:auto; font-family:var(--mono); font-size:13px; color:var(--faint); flex:0 0 auto;}
+
+/* ── QR code ──────────────────────────────── */
+.qrcard{display:flex; flex-direction:column; align-items:center; gap:18px;}
+.qr{width:230px; height:230px; border-radius:6px; overflow:hidden; background:#fff; border:1px solid var(--line-2);}
+.qr svg{display:block;}
+.qr.empty{display:grid; place-items:center; background:var(--paper-2); border:1px dashed var(--blogger);
+  color:var(--faint); font-family:var(--mono); font-size:13px; text-align:center; line-height:2;}
+.qr.empty code{color:var(--blogger-deep); font-size:12px;}
+.qrcard .lbl{font-size:23px; font-weight:700; text-align:center;}
+.qrcard .sub{text-align:center;}
+
+/* 連結 */
+a{color:var(--wp-deep); text-decoration:none; border-bottom:1px solid var(--wp-sk);}
+a:hover{border-bottom-color:var(--wp);}
+a:focus-visible{outline:2px solid var(--wp); outline-offset:3px;}
+
+/* 隱藏來源模板 */
+template{display:none;}
+
+/* 五格以上的流程圖，字級縮一階才不會擠 */
+.pipe.sm .node{padding:20px 12px;}
+.pipe.sm .node .t{font-size:18px;}
+.pipe.sm .node .s{font-size:12.5px;}
+.pipe.sm .arw{flex:0 0 34px;}
+
+/* ── 講者大頭照 ─────────────────────────────── */
+.avatar{width:290px; height:290px; border-radius:3px; position:relative; overflow:hidden;
+  background:var(--paper-2); border:1px solid var(--line-2);}
+.avatar img{width:100%;height:100%;object-fit:cover; position:relative; z-index:2; display:block;}
+.avatar img.dead{display:none;}
+.avatar .fb{position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:12px; z-index:1;}
+.avatar .fb .ini{font-family:var(--serif); font-size:74px; font-weight:900; color:var(--paper-3);}
+.avatar .fb .fn{font-family:var(--mono); font-size:13px; letter-spacing:.12em; color:var(--faint);}

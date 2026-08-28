@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNIT 08 在 Discord 改網站｜從停權到 Discord</title>
+<link rel="stylesheet" href="assets/deck.css">
+</head>
+<body data-unit="08" data-unit-name="在 Discord 改網站" data-prev="07-deploy.html" data-next="09-recap.html">
+<div id="viewport"><div id="stage">
+
+
+<!-- ── 章節首頁（墨黑） ───────────────────── -->
+<section class="slide sec k" data-sec="在 Discord 改網站">
+  <div class="ghostno">07</div>
+  <div class="secno r">CHAPTER 07</div>
+  <h1 class="r mega" style="--d:.12s">在 Discord<br>改網站</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">交付之後，業主才是每天要用的人。</p>
+</section>
+
+
+<!-- ── 問題 ───────────────────────────────── -->
+<section class="slide" data-sec="真正的門檻">
+  <div class="kicker r">網站做完之後才是問題</div>
+  <h1 class="r h1s" style="--d:.08s">業主習慣的是<br>Blogger 的後台。</h1>
+  <p class="lead wide r" style="--d:.22s; margin-top:32px">WordPress 後台對他來說，<b>選單太多、名詞太多。</b></p>
+</section>
+
+
+<!-- ── 解法 ───────────────────────────────── -->
+<section class="slide" data-sec="解法">
+  <h1 class="r mega" style="--d:.06s">那就<br>不要進後台。</h1>
+  <p class="lead wide r" style="--d:.24s; margin-top:36px">改成他每天都在用的那個聊天視窗。</p>
+</section>
+
+
+<!-- ── Discord 模擬 ───────────────────────── -->
+<section class="slide" data-sec="實際上長這樣" data-steps="2">
+  <div class="r" style="--d:.06s; height:452px">
+    <div class="dc">
+      <div class="dc-side">
+        <div class="dc-srv">CODOTX 客戶專區</div>
+        <div class="dc-ch"><b>#</b>公告</div>
+        <div class="dc-ch act"><b>#</b>justgirl<span class="mcp">MCP</span></div>
+        <div class="dc-ch"><b>#</b>其他客戶</div>
+        <div class="dc-ch"><b>#</b>閒聊</div>
+      </div>
+      <div class="dc-main">
+        <div class="dc-top"># justgirl</div>
+        <div class="dc-body">
+          <div class="dc-msg me">
+            <div class="av">業主</div>
+            <div><div class="nm">Just a Girl</div>
+              <div class="tx">首頁最上面那句話，幫我改成「今天也要好好過」。</div></div>
+          </div>
+          <div class="dc-msg bot step" data-step="1">
+            <div class="av">K</div>
+            <div><div class="nm">Kiro <span class="bt">BOT</span></div>
+              <div class="tx">好，我看一下首頁。<br><code>instawp</code> 讀取首頁區塊 → 找到標題</div></div>
+          </div>
+          <div class="dc-msg bot step" data-step="2">
+            <div class="av">K</div>
+            <div><div class="nm">Kiro <span class="bt">BOT</span></div>
+              <div class="tx"><span class="ok">✔ 已更新</span>，你重新整理看看。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 工具 ───────────────────────────────── -->
+<section class="slide" data-sec="用什麼串的">
+  <div class="kicker r">社群夥伴阿竣寫的開源工具</div>
+  <h1 class="r h1s" style="--d:.08s; font-size:48px; margin-bottom:38px">kiro-discord-bot</h1>
+  <div class="pipe r" style="--d:.2s">
+    <div class="node b"><div class="t">Discord</div><div class="s">業主打字的地方</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node o"><div class="t">Kiro CLI</div><div class="s">亞馬遜的 AI 服務</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">MCP</div><div class="s">真的去改網站</div></div>
+  </div>
+  <p class="note r" style="--d:.32s; margin-top:26px">github.com/nczz/kiro-discord-bot</p>
+</section>
+
+
+<!-- ── 頻道權限 ───────────────────────────── -->
+<section class="slide" data-sec="為什麼用 Discord">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">Discord 的好處</div>
+      <h1 class="r h1s" style="--d:.1s">權限可以<br>切到「頻道」。</h1>
+      <p class="lead r" style="--d:.2s">還記得 InstaWP 那條 MCP 網址嗎？<br><b>把它只掛在這個客戶的頻道上。</b></p>
+      <p class="lead r" style="--d:.28s">這個網站，<b>只有他碰得到。</b></p>
+    </div>
+    <div class="r" style="--d:.34s; display:grid; place-items:center">
+      <svg viewBox="10 10 240 176" style="width:330px" aria-label="每個頻道對應各自的 MCP 權限">
+        <rect x="18" y="20" width="120" height="40" rx="6" fill="none" stroke="#E7E0D6" stroke-width="2.5"/>
+        <rect x="18" y="76" width="120" height="40" rx="6" fill="none" stroke="#21759B" stroke-width="3"/>
+        <rect x="18" y="132" width="120" height="40" rx="6" fill="none" stroke="#E7E0D6" stroke-width="2.5"/>
+        <text x="34" y="46" font-family="JetBrains Mono, monospace" font-size="15" fill="#8B837B">#公告</text>
+        <text x="34" y="102" font-family="JetBrains Mono, monospace" font-size="15" fill="#16536E">#justgirl</text>
+        <text x="34" y="158" font-family="JetBrains Mono, monospace" font-size="15" fill="#8B837B">#其他</text>
+        <path d="M142 96h44" fill="none" stroke="#21759B" stroke-width="2.5" stroke-dasharray="5 5"/>
+        <rect x="190" y="76" width="44" height="40" rx="6" fill="#21759B"/>
+        <circle cx="203" cy="96" r="6" fill="none" stroke="#fff" stroke-width="2.5"/>
+        <path d="M209 96h16M218 96v6M224 96v5" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="212" y="132" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#56504A">MCP</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+</div></div>
+<script src="assets/deck.js"></script>
+</body>
+</html>

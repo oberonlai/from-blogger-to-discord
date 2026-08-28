@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNIT 07 推上線｜從停權到 Discord</title>
+<link rel="stylesheet" href="assets/deck.css">
+</head>
+<body data-unit="07" data-unit-name="推上線" data-prev="06-import.html" data-next="08-discord.html">
+<div id="viewport"><div id="stage">
+
+
+<!-- ── 章節首頁（橘） ─────────────────────── -->
+<section class="slide sec o" data-sec="推上線">
+  <div class="ghostno">06</div>
+  <div class="secno r">CHAPTER 06</div>
+  <h1 class="r mega" style="--d:.12s">推上線</h1>
+  <p class="lead r" style="--d:.24s; margin-top:22px">主機、自動部署，還有一個伏筆。</p>
+</section>
+
+
+<!-- ── 主機 ───────────────────────────────── -->
+<section class="slide" data-sec="主機">
+  <div class="kicker r">遠端主機我選</div>
+  <h1 class="r mega" style="--d:.08s; font-size:78px">InstaWP</h1>
+  <p class="lead wide r" style="--d:.22s; margin-top:32px">本來是給開發者用的 WordPress 服務，<br><b>後來也開始賣主機。</b></p>
+</section>
+
+
+<!-- ── 價格 ───────────────────────────────── -->
+<section class="slide" data-sec="價格">
+  <div class="kicker r">方案很便宜</div>
+  <div class="cols c-2 r" style="--d:.14s; margin-top:14px">
+    <div class="card">
+      <div class="idx">測 試 用</div>
+      <h3 style="font-family:var(--mono); font-size:56px">$2<span style="font-size:22px; color:var(--faint)"> / 月</span></h3>
+      <p>不綁正式網址，純測試站就夠用。</p>
+    </div>
+    <div class="card b">
+      <div class="idx">正 式 用</div>
+      <h3 style="font-family:var(--mono); font-size:56px">$5<span style="font-size:22px; color:var(--faint)"> / 月</span></h3>
+      <p>可以綁自己的網址，主機額度也比較多。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 理由 01 ────────────────────────────── -->
+<section class="slide" data-sec="選它的理由 01">
+  <div class="cols c-side" style="align-items:center">
+    <div class="bignum r ghost">01</div>
+    <div class="stack g24">
+      <h1 class="r h1s" style="--d:.1s">它有 CLI，<br>AI 可以自己開站。</h1>
+      <p class="lead wide r" style="--d:.2s">底層已經針對 WordPress 做過相容，<br><b>Agent 直接用指令開測試站、同步網站。</b></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 理由 02 ────────────────────────────── -->
+<section class="slide" data-sec="選它的理由 02">
+  <div class="cols c-side" style="align-items:center">
+    <div class="bignum r ghost b">02</div>
+    <div class="stack g24">
+      <h1 class="r h1s" style="--d:.1s">後台可以直接<br>開一個 MCP。</h1>
+      <p class="lead wide r" style="--d:.2s">拿到一條網址，就能接上各家模型的桌面應用程式。</p>
+      <div class="r" style="--d:.3s"><span class="tag b">這條網址等一下會再出現</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 部署流程 ───────────────────────────── -->
+<section class="slide" data-sec="部署流程">
+  <div class="kicker r">本機做完之後，剩下的都自動</div>
+  <div class="pipe r" style="--d:.16s; margin-top:6px">
+    <div class="node o"><div class="t">git push</div><div class="s">提交這次更新</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node o"><div class="t">GitHub Actions</div><div class="s">測試通過才往下</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">自動部署測試站</div><div class="s">InstaWP · SSH</div></div>
+    <div class="arw"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
+    <div class="node b"><div class="t">agent-browser</div><div class="s">實際開網頁驗收</div></div>
+  </div>
+  <p class="lead wide r" style="--d:.34s; margin-top:34px">更新完不是說「應該好了」，<b>是真的去點一遍。</b></p>
+</section>
+
+
+<!-- ── CDN ────────────────────────────────── -->
+<section class="slide" data-sec="CDN">
+  <div class="cols c-media" style="align-items:center">
+    <div class="stack g24">
+      <div class="kicker b r">效能</div>
+      <h1 class="r h1s" style="--d:.1s">CDN 是 Bunny，<br>最近的機房在新加坡。</h1>
+      <p class="lead r" style="--d:.2s">台灣連過去，<b>體感還可以。</b></p>
+    </div>
+    <div class="r" style="--d:.3s; display:grid; place-items:center">
+      <svg viewBox="30 20 180 175" style="width:330px" aria-label="台灣連到新加坡機房">
+        <circle cx="70" cy="60" r="9" fill="#F57C00"/>
+        <circle cx="170" cy="140" r="9" fill="#21759B"/>
+        <path d="M70 60C110 70 130 100 170 140" fill="none" stroke="#8B837B" stroke-width="2.5" stroke-dasharray="7 7"/>
+        <circle cx="70" cy="60" r="24" fill="none" stroke="#F57C00" stroke-width="2" opacity=".4"/>
+        <circle cx="170" cy="140" r="24" fill="none" stroke="#21759B" stroke-width="2" opacity=".4"/>
+        <text x="70" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#56504A">TW</text>
+        <text x="170" y="180" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#56504A">SG</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+</div></div>
+<script src="assets/deck.js"></script>
+</body>
+</html>
